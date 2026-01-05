@@ -217,95 +217,6 @@ npm run build
 # Vite will show you bundle sizes
 ```
 
-## Deployment
-
-### Vercel (⭐ Recommended)
-
-1. Push your code to GitHub
-2. Go to [vercel.com](https://vercel.com)
-3. Import your repository
-4. Vercel will auto-detect Vite
-5. Deploy!
-
-**`vercel.json` (optional):**
-
-```json
-{
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist"
-}
-```
-
-### Netlify
-
-1. Push code to GitHub
-2. Go to [netlify.com](https://netlify.com)
-3. Import repository
-4. Set build command: `npm run build`
-5. Set publish directory: `dist`
-6. Deploy!
-
-**`netlify.toml`:**
-
-```toml
-[build]
-  command = "npm run build"
-  publish = "dist"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-```
-
-### GitHub Pages
-
-1. Install `gh-pages`:
-
-```bash
-npm install -D gh-pages
-```
-
-2. Add to `package.json`:
-
-```json
-{
-  "scripts": {
-    "deploy": "npm run build && gh-pages -d dist"
-  }
-}
-```
-
-3. Deploy:
-
-```bash
-npm run deploy
-```
-
-### Static File Hosting
-
-The `dist/` folder can be hosted anywhere:
-- AWS S3 + CloudFront
-- Cloudflare Pages
-- Firebase Hosting
-- Any static web server
-
-## Environment Variables
-
-This project doesn't require any environment variables for basic functionality. However, you can add optional variables in `.env`:
-
-```env
-# Optional: Analytics
-VITE_GA_ID=your-google-analytics-id
-VITE_PLAUSIBLE_DOMAIN=your-domain.com
-```
-
-Access in code:
-
-```typescript
-const gaId = import.meta.env.VITE_GA_ID;
-```
-
 ## Contributing
 
 1. Fork the repository
@@ -345,10 +256,8 @@ MIT
 
 ## Links
 
-- [VS Code Extension](https://marketplace.visualstudio.com/items?itemName=stranger-theme.stranger-theme)
-- [JetBrains Plugin](https://plugins.jetbrains.com/plugin/stranger-theme)
 - [GitHub](https://github.com/stranger-theme)
 
 ---
 
-Made with ❤️ in Hawkins, Indiana
+Made with ❤️ in Hawkins
