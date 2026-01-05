@@ -32,11 +32,12 @@ export function RetroGrid({ className }: RetroGridProps) {
   useEffect(() => {
     const triggerThunder = () => {
       setThunderFlash(1)
+      setTimeout(() => setThunderFlash(0.8), 50)
       setTimeout(() => setThunderFlash(0), 100)
-      setTimeout(() => setThunderFlash(0.6), 150)
-      setTimeout(() => setThunderFlash(0), 200)
-      setTimeout(() => setThunderFlash(0.3), 280)
-      setTimeout(() => setThunderFlash(0), 350)
+      setTimeout(() => setThunderFlash(0.9), 180)
+      setTimeout(() => setThunderFlash(0), 250)
+      setTimeout(() => setThunderFlash(0.5), 320)
+      setTimeout(() => setThunderFlash(0), 450)
     }
 
     const interval = setInterval(triggerThunder, 7000)
@@ -209,7 +210,7 @@ export function RetroGrid({ className }: RetroGridProps) {
         className="absolute inset-0 pointer-events-none transition-opacity duration-75"
         style={{
           background:
-            "radial-gradient(ellipse at 50% 30%, rgba(255,255,255,0.9) 0%, rgba(200,200,255,0.4) 40%, transparent 70%)",
+            "radial-gradient(ellipse at 50% 30%, rgba(255,255,255,1) 0%, rgba(220,220,255,0.6) 30%, transparent 60%)",
           opacity: thunderFlash,
           zIndex: 3,
           mixBlendMode: "overlay",

@@ -42,7 +42,7 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.2 }}
-            className="text-5xl md:text-8xl font-display font-black tracking-tighter mb-6 text-transparent bg-clip-text bg-gradient-to-b from-foreground to-foreground/50 drop-shadow-[0_0_30px_hsl(var(--primary)/0.5)] whitespace-pre-line"
+            className="text-5xl md:text-8xl font-display font-black tracking-tighter mb-6 text-transparent bg-clip-text bg-gradient-to-b from-foreground to-foreground/80 drop-shadow-[0_0_30px_hsl(var(--primary)/0.5)] whitespace-pre-line"
           >
             {t.title}
           </motion.h1>
