@@ -34,7 +34,7 @@ jobs:
           NODE_ENV: production
 
       - name: Deploy to Cloudflare Pages (Production)
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         uses: cloudflare/pages-action@v1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -43,6 +43,7 @@ jobs:
           directory: dist
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           wranglerVersion: '3'
+          productionBranch: main
 
       - name: Deploy to Cloudflare Pages (Preview)
         id: deploy
