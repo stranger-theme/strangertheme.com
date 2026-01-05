@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react"
+import { useEffect, useState, useMemo, useRef } from "react"
 import { cn } from "@/lib/utils"
 
 interface RetroGridProps {
@@ -6,7 +6,8 @@ interface RetroGridProps {
 }
 
 export function RetroGrid({ className }: RetroGridProps) {
-  const [rotation, setRotation] = useState(0)
+  const rotationRef = useRef(0)
+  const [, forceUpdate] = useState(0)
   const [thunderFlash, setThunderFlash] = useState(0)
 
   useEffect(() => {
@@ -16,7 +17,8 @@ export function RetroGrid({ className }: RetroGridProps) {
     const animate = (currentTime: number) => {
       const delta = currentTime - lastTime
       lastTime = currentTime
-      setRotation((prev) => (prev + delta * 0.008) % 360)
+      rotationRef.current = (rotationRef.current + delta * 0.008) % 360
+      forceUpdate(prev => prev + 1)
       animationFrameId = requestAnimationFrame(animate)
     }
 
@@ -57,7 +59,7 @@ export function RetroGrid({ className }: RetroGridProps) {
     const points: string[] = []
     for (let y = -height / 2; y <= height / 2; y += 6) {
       const radius = waistRadius + y * y * flareFactor
-      const angle = (angleOffset + rotation) * (Math.PI / 180)
+      const angle = (angleOffset + rotationRef.current) * (Math.PI / 180)
       const x = radius * Math.cos(angle)
       points.push(`${x.toFixed(2)},${y}`)
     }
@@ -65,7 +67,7 @@ export function RetroGrid({ className }: RetroGridProps) {
   }
 
   const getLineDepth = (angleOffset: number) => {
-    const angle = (angleOffset + rotation) % 360
+    const angle = (angleOffset + rotationRef.current) % 360
     const normalizedAngle = angle < 0 ? angle + 360 : angle
     const depth = Math.cos(normalizedAngle * (Math.PI / 180))
     return depth
@@ -178,7 +180,7 @@ export function RetroGrid({ className }: RetroGridProps) {
               cy={p.cy}
               r={p.r}
               fill="hsl(var(--primary))"
-              opacity={0.3 + Math.sin(rotation * 0.03 + i) * 0.25}
+              opacity={0.3 + Math.sin(rotationRef.current * 0.03 + i) * 0.25}
             />
           ))}
         </svg>

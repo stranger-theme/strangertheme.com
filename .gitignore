@@ -63,7 +63,7 @@ Thumbs.db
 *.chatgpt.md
 *.cursor.md
 *.cline.md
-*.claude.md
+*claude.md
 *ai-assistant*.md
 *llm*.md
 .chat/
