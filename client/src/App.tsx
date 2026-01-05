@@ -1,4 +1,5 @@
 import { Switch, Route } from "wouter"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { queryClient } from "./lib/queryClient"
 import { QueryClientProvider } from "@tanstack/react-query"
 import { Toaster } from "@/components/ui/toaster"
@@ -25,6 +26,7 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <Router />
+          <SpeedInsights />
         </TooltipProvider>
       </I18nProvider>
     </QueryClientProvider>
