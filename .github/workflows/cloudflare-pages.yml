@@ -43,7 +43,6 @@ jobs:
           directory: dist
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           wranglerVersion: '3'
-          productionBranch: main
 
       - name: Deploy to Cloudflare Pages (Preview)
         id: deploy
