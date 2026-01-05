@@ -44,6 +44,7 @@ jobs:
           wranglerVersion: '3'
 
       - name: Deploy to Cloudflare Pages (Preview)
+        id: deploy
         if: github.event_name == 'pull_request'
         uses: cloudflare/pages-action@v1
         with:
