@@ -113,7 +113,7 @@ export function ThemeSwitcher() {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        {/* <DonationModal /> */}
+        <DonationModal />
       </div>
     </div>
   )
