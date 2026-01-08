@@ -60,7 +60,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
-            className="flex justify-center"
+            className="flex flex-col items-center gap-6"
           >
             <Button
               size="lg"
@@ -70,6 +70,19 @@ export default function Home() {
             >
               {t.viewDocs}
             </Button>
+            <a
+              href="https://www.producthunt.com/products/stranger-theme?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-stranger-theme"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:opacity-80 transition-opacity"
+            >
+              <img
+                alt="Stranger Theme - Turn your coding environment upside down | Product Hunt"
+                width="250"
+                height="54"
+                src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1059824&theme=neutral&t=1767823358022"
+              />
+            </a>
           </motion.div>
         </section>
 
