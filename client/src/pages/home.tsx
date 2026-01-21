@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
-import { Terminal, Code, Cpu, Activity, Zap } from "lucide-react"
+import { Terminal, Code, Cpu, Activity, Zap, Github } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
 
 export default function Home() {
@@ -60,14 +60,15 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
-            className="flex flex-col items-center gap-6"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6"
           >
             <Button
               size="lg"
               variant="outline"
-              className="border-primary/50 text-primary hover:bg-primary/10 shadow-[0_0_10px_hsl(var(--primary)/0.2)] font-mono h-14 px-8 backdrop-blur-sm"
+              className="border-primary/50 text-primary hover:bg-primary/10 shadow-[0_0_10px_hsl(var(--primary)/0.2)] font-mono h-14 px-8 backdrop-blur-sm gap-2"
               onClick={() => window.open("https://github.com/stranger-theme/stranger-theme", "_blank")}
             >
+              <Github className="w-5 h-5" />
               {t.viewDocs}
             </Button>
             <a
