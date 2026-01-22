@@ -120,7 +120,7 @@ export default function Home() {
                     VS
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-display font-bold text-foreground truncate">
+                    <h3 className="font-display font-bold text-foreground break-words leading-tight">
                       Visual Studio Code
                     </h3>
                     <span className="text-xs font-mono text-green-500">{t.available}</span>
@@ -146,7 +146,7 @@ export default function Home() {
                     JB
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-display font-bold text-foreground truncate">
+                    <h3 className="font-display font-bold text-foreground break-words leading-tight">
                       JetBrains IDEs
                     </h3>
                     <span className="text-xs font-mono text-green-500">{t.available}</span>
@@ -168,7 +168,7 @@ export default function Home() {
                     Vi
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-display font-bold text-foreground/70 truncate">Vim</h3>
+                    <h3 className="font-display font-bold text-foreground/70 break-words leading-tight">Vim</h3>
                     <span className="text-xs font-mono text-yellow-500">{t.comingSoon}</span>
                   </div>
                 </CardContent>
@@ -188,7 +188,7 @@ export default function Home() {
                     ST
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-display font-bold text-foreground/70 truncate">
+                    <h3 className="font-display font-bold text-foreground/70 break-words leading-tight">
                       Sublime Text
                     </h3>
                     <span className="text-xs font-mono text-yellow-500">{t.comingSoon}</span>
@@ -210,7 +210,7 @@ export default function Home() {
                     iT
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-display font-bold text-foreground/70 truncate">iTerm2</h3>
+                    <h3 className="font-display font-bold text-foreground/70 break-words leading-tight">iTerm2</h3>
                     <span className="text-xs font-mono text-yellow-500">{t.comingSoon}</span>
                   </div>
                 </CardContent>
@@ -230,7 +230,7 @@ export default function Home() {
                     Hy
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-display font-bold text-foreground/70 truncate">Hyper</h3>
+                    <h3 className="font-display font-bold text-foreground/70 break-words leading-tight">Hyper</h3>
                     <span className="text-xs font-mono text-yellow-500">{t.comingSoon}</span>
                   </div>
                 </CardContent>
@@ -250,7 +250,7 @@ export default function Home() {
                     WT
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-display font-bold text-foreground/70 truncate">
+                    <h3 className="font-display font-bold text-foreground/70 break-words leading-tight">
                       Windows Terminal
                     </h3>
                     <span className="text-xs font-mono text-yellow-500">{t.comingSoon}</span>
@@ -272,7 +272,7 @@ export default function Home() {
                     Al
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-display font-bold text-foreground/70 truncate">
+                    <h3 className="font-display font-bold text-foreground/70 break-words leading-tight">
                       Alacritty
                     </h3>
                     <span className="text-xs font-mono text-yellow-500">{t.comingSoon}</span>
