@@ -37,7 +37,7 @@ This guide explains how to deploy your static frontend website to various platfo
 
 ### Configuration (Optional)
 
-Create `vercel.json` (already included):
+Create `vercel.json` if you choose this deployment method:
 ```json
 {
   "buildCommand": "npm run build",
@@ -93,7 +93,7 @@ Create `vercel.json` (already included):
 
 ---
 
-## 🌐 Cloudflare Pages ✅ SELECTED
+## 🌐 Cloudflare Pages
 
 **Why Cloudflare:**
 - 🌍 Fastest global CDN
@@ -101,14 +101,14 @@ Create `vercel.json` (already included):
 - 🆓 Free tier
 - ⚡ DDoS protection
 
-**This project uses Cloudflare Pages for deployment with GitHub Actions automation.**
+The repository has Cloudflare account and API token secrets configured. It does not contain a Cloudflare deployment workflow. Confirm the existing Pages project and its production branch before enabling deployment. The website CI workflow validates and uploads `dist/` as a build artifact; it does not deploy it.
 
 ### Deployment Steps
 
-1. **GitHub Actions CI/CD (Automatic)**
-   - Push to `main` branch → Auto deploys to Cloudflare Pages
-   - Pull requests → Preview deployments
-   - See workflow: `.github/workflows/cloudflare-pages.yml`
+1. **GitHub Actions validation**
+   - Push to `main` or open a pull request to run checks and build the site
+   - See workflow: `.github/workflows/ci.yml`
+   - Production and preview deployment require a separately configured Cloudflare integration or workflow
 
 2. **Manual Deployment (if needed)**
    - Go to [dash.cloudflare.com](https://dash.cloudflare.com)
@@ -126,8 +126,8 @@ Create `vercel.json` (already included):
 3. Add secrets to GitHub repository:
    - `CLOUDFLARE_ACCOUNT_ID`
    - `CLOUDFLARE_API_TOKEN`
-4. Push code to `main` branch
-5. GitHub Actions will deploy automatically
+4. Confirm the Pages project name, production branch and custom domain
+5. Configure Pages Git integration or a deployment workflow before relying on automatic deployment
 
 ### Environment Variables
 
@@ -187,12 +187,12 @@ VITE_GA_ID=your-google-analytics-id
 
 ### Build Settings (in Cloudflare Dashboard)
 
-These are configured in GitHub Actions, but for reference:
+Use these settings when configuring Cloudflare Pages:
 
 - **Build command:** `npm run build`
 - **Build output directory:** `dist`
 - **Root directory:** `/`
-- **Node.js version:** `20`
+- **Node.js version:** `22`
 
 ---
 
@@ -400,7 +400,7 @@ npm run build
 
 ### 404 Errors on Refresh
 
-- Add SPA fallback (included in `netlify.toml`)
+- Add SPA fallback in the chosen hosting provider; this repository does not include `netlify.toml`
 - Configure server to redirect to `index.html`
 
 ### Images Not Loading
