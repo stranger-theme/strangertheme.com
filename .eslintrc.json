@@ -28,7 +28,7 @@
   "rules": {
     "react-refresh/only-export-components": [
       "warn",
-      { "allowConstantExport": true }
+      { "allowConstantExport": true, "allowExportNames": ["badgeVariants", "buttonVariants", "useI18n"] }
     ],
     "@typescript-eslint/no-unused-vars": [
       "error",

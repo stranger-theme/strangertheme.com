@@ -72,7 +72,7 @@ export function DonationModal() {
         )}
 
         <div className="text-center text-xs text-muted-foreground font-mono italic border-t border-border/50 pt-4 mt-2">
-          "{t.thankYou}"
+          &quot;{t.thankYou}&quot;
         </div>
       </DialogContent>
     </Dialog>

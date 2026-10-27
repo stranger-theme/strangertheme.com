@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState, ReactNode } from "react"
+import { createContext, useContext, useEffect, useState, ReactNode } from "react"
 
-type Language = "en" | "es" | "fr" | "pt"
+export type Language = "en" | "es" | "fr" | "pt"
 
 type Translations = {
   [key in Language]: {
@@ -12,8 +12,8 @@ type Translations = {
     viewDocs: string
     syntaxHighlighting: string
     syntaxHighlightingDesc: string
-    neonGlows: string
-    neonGlowsDesc: string
+    darkThemes: string
+    darkThemesDesc: string
     sevenVariants: string
     sevenVariantsDesc: string
     footer: string
@@ -26,6 +26,10 @@ type Translations = {
     oneThemeAllPlatforms: string
     available: string
     comingSoon: string
+    searchPlatforms: string
+    noPlatformsFound: string
+    installPlatform: string
+    selectLanguage: string
     about: string
     aboutTitle: string
     aboutStory: string
@@ -45,9 +49,8 @@ const translations: Translations = {
     syntaxHighlighting: "Syntax Highlighting",
     syntaxHighlightingDesc:
       "Carefully selected colors for optimal contrast and readability in the Upside Down.",
-    neonGlows: "Neon Glows",
-    neonGlowsDesc:
-      "Subtle glowing effects on keywords to bring that 80s synthwave aesthetic to your code.",
+    darkThemes: "Dark Themes",
+    darkThemesDesc: "Six dark color variants designed for comfortable contrast and readable code.",
     sevenVariants: "6 Unique Variants",
     sevenVariantsDesc:
       "From Starcourt Mall to The Lab, switch between dimensions with a single click.",
@@ -62,6 +65,10 @@ const translations: Translations = {
     oneThemeAllPlatforms: "One theme. All platforms.",
     available: "Available",
     comingSoon: "Coming Soon",
+    searchPlatforms: "Search clients...",
+    noPlatformsFound: "No clients match your search.",
+    installPlatform: "Installation guide ↗",
+    selectLanguage: "Select language",
     about: "About",
     aboutTitle: "The Story Behind Stranger Theme",
     aboutStory:
@@ -79,9 +86,9 @@ const translations: Translations = {
     syntaxHighlighting: "Resaltado de Sintaxis",
     syntaxHighlightingDesc:
       "Colores cuidadosamente seleccionados para un contraste y legibilidad óptimos en el Mundo del Revés.",
-    neonGlows: "Brillos de Neón",
-    neonGlowsDesc:
-      "Efectos de brillo sutiles en palabras clave para traer esa estética synthwave de los 80 a tu código.",
+    darkThemes: "Temas Oscuros",
+    darkThemesDesc:
+      "Seis variantes oscuras diseñadas para ofrecer buen contraste y código legible.",
     sevenVariants: "6 Variantes Únicas",
     sevenVariantsDesc:
       "Desde el Centro Comercial Starcourt hasta El Laboratorio, cambia entre dimensiones con un solo clic.",
@@ -96,10 +103,14 @@ const translations: Translations = {
     oneThemeAllPlatforms: "Un tema. Todas las plataformas.",
     available: "Disponible",
     comingSoon: "Próximamente",
+    searchPlatforms: "Buscar clientes...",
+    noPlatformsFound: "Ningún cliente coincide con tu búsqueda.",
+    installPlatform: "Guía de instalación ↗",
+    selectLanguage: "Seleccionar idioma",
     about: "Acerca de",
     aboutTitle: "La Historia Detrás de Stranger Theme",
     aboutStory:
-      "Stranger Theme es una colección de temas oscuros para IDE creada para desarrolladores que les importan dos cosas: enfoque y ambiente.\n\nNací en los años 80, y siempre me ha gustado la atmósfera de Stranger Things: neón en la oscuridad, misterio de fondo y esa sensación de que algo grande está por ocurrir. Inspirado por el espíritu de código abierto y la artesanía detrás del Dracula Theme de Zeno Rocha, construí Stranger Theme para traer esa misma \"identidad instantánea\" al lugar donde pasamos la mayor parte de nuestro día: el editor.\n\nStranger Theme viene en múltiples variantes—cada una un \"mundo\" diferente donde puedes programar:\n\nUpside Down\n\nStarcourt Mall\n\nHawkins\n\nThe Lab\n\nTigers\n\nDimension X\n\nStranger Theme está inspirado por fans (no afiliado con Netflix). Es simplemente mi manera de convertir una vibra cultural en una herramienta práctica: un tema que se ve cinematográfico, pero se mantiene legible cuando estás profundamente inmerso en trabajo real.",
+      'Stranger Theme es una colección de temas oscuros para IDE creada para desarrolladores que les importan dos cosas: enfoque y ambiente.\n\nNací en los años 80, y siempre me ha gustado la atmósfera de Stranger Things: neón en la oscuridad, misterio de fondo y esa sensación de que algo grande está por ocurrir. Inspirado por el espíritu de código abierto y la artesanía detrás del Dracula Theme de Zeno Rocha, construí Stranger Theme para traer esa misma "identidad instantánea" al lugar donde pasamos la mayor parte de nuestro día: el editor.\n\nStranger Theme viene en múltiples variantes—cada una un "mundo" diferente donde puedes programar:\n\nUpside Down\n\nStarcourt Mall\n\nHawkins\n\nThe Lab\n\nTigers\n\nDimension X\n\nStranger Theme está inspirado por fans (no afiliado con Netflix). Es simplemente mi manera de convertir una vibra cultural en una herramienta práctica: un tema que se ve cinematográfico, pero se mantiene legible cuando estás profundamente inmerso en trabajo real.',
     backHome: "Volver al Inicio",
   },
   fr: {
@@ -113,9 +124,9 @@ const translations: Translations = {
     syntaxHighlighting: "Coloration Syntaxique",
     syntaxHighlightingDesc:
       "Couleurs soigneusement sélectionnées pour un contraste et une lisibilité optimaux dans le Monde à l'Envers.",
-    neonGlows: "Lueurs Néon",
-    neonGlowsDesc:
-      "Effets de lueur subtils sur les mots-clés pour apporter cette esthétique synthwave des années 80 à votre code.",
+    darkThemes: "Thèmes Sombres",
+    darkThemesDesc:
+      "Six variantes sombres conçues pour un contraste confortable et un code lisible.",
     sevenVariants: "6 Variantes Uniques",
     sevenVariantsDesc:
       "Du centre commercial Starcourt au Laboratoire, changez de dimension en un clic.",
@@ -130,6 +141,10 @@ const translations: Translations = {
     oneThemeAllPlatforms: "Un thème. Toutes les plateformes.",
     available: "Disponible",
     comingSoon: "Bientôt",
+    searchPlatforms: "Rechercher un client...",
+    noPlatformsFound: "Aucun client ne correspond à votre recherche.",
+    installPlatform: "Guide d'installation ↗",
+    selectLanguage: "Choisir la langue",
     about: "À Propos",
     aboutTitle: "L'Histoire Derrière Stranger Theme",
     aboutStory:
@@ -147,9 +162,9 @@ const translations: Translations = {
     syntaxHighlighting: "Realce de Sintaxe",
     syntaxHighlightingDesc:
       "Cores cuidadosamente selecionadas para contraste e legibilidade ideais no Mundo Invertido.",
-    neonGlows: "Brilhos Neon",
-    neonGlowsDesc:
-      "Efeitos de brilho sutis em palavras-chave para trazer aquela estética synthwave dos anos 80 ao seu código.",
+    darkThemes: "Temas Escuros",
+    darkThemesDesc:
+      "Seis variantes escuras projetadas para oferecer contraste confortável e código legível.",
     sevenVariants: "6 Variantes Únicas",
     sevenVariantsDesc:
       "Do Shopping Starcourt ao Laboratório, alterne entre dimensões com um único clique.",
@@ -164,10 +179,14 @@ const translations: Translations = {
     oneThemeAllPlatforms: "Um tema. Todas as plataformas.",
     available: "Disponível",
     comingSoon: "Em Breve",
+    searchPlatforms: "Buscar clientes...",
+    noPlatformsFound: "Nenhum cliente corresponde à sua busca.",
+    installPlatform: "Guia de instalação ↗",
+    selectLanguage: "Selecionar idioma",
     about: "Sobre",
     aboutTitle: "A História Por Trás do Stranger Theme",
     aboutStory:
-      "Stranger Theme é uma coleção de temas escuros para IDE criada para desenvolvedores que se preocupam com duas coisas: foco e vibe.\n\nNasci nos anos 80, e sempre amei a atmosfera de Stranger Things: neon na escuridão, mistério ao fundo, e aquela sensação de que algo grande está prestes a acontecer. Inspirado pelo espírito open-source e pelo trabalho por trás do Dracula Theme do Zeno Rocha, construí Stranger Theme para trazer aquela mesma \"identidade instantânea\" para o lugar onde passamos a maior parte do nosso dia: o editor.\n\nStranger Theme vem em múltiplas variantes—cada uma um \"mundo\" diferente onde você pode programar:\n\nUpside Down\n\nStarcourt Mall\n\nHawkins\n\nThe Lab\n\nTigers\n\nDimension X\n\nStranger Theme é inspirado por fãs (não afiliado à Netflix). É simplesmente minha maneira de transformar uma vibe cultural em uma ferramenta prática: um tema que parece cinematográfico, mas permanece legível quando você está profundamente imerso em trabalho real.",
+      'Stranger Theme é uma coleção de temas escuros para IDE criada para desenvolvedores que se preocupam com duas coisas: foco e vibe.\n\nNasci nos anos 80, e sempre amei a atmosfera de Stranger Things: neon na escuridão, mistério ao fundo, e aquela sensação de que algo grande está prestes a acontecer. Inspirado pelo espírito open-source e pelo trabalho por trás do Dracula Theme do Zeno Rocha, construí Stranger Theme para trazer aquela mesma "identidade instantânea" para o lugar onde passamos a maior parte do nosso dia: o editor.\n\nStranger Theme vem em múltiplas variantes—cada uma um "mundo" diferente onde você pode programar:\n\nUpside Down\n\nStarcourt Mall\n\nHawkins\n\nThe Lab\n\nTigers\n\nDimension X\n\nStranger Theme é inspirado por fãs (não afiliado à Netflix). É simplesmente minha maneira de transformar uma vibe cultural em uma ferramenta prática: um tema que parece cinematográfico, mas permanece legível quando você está profundamente imerso em trabalho real.',
     backHome: "Voltar ao Início",
   },
 }
@@ -187,7 +206,23 @@ function detectBrowserLanguage(): Language {
 }
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<Language>(detectBrowserLanguage)
+  const [language, setLanguage] = useState<Language>(() => {
+    try {
+      const saved = localStorage.getItem("stranger-language")
+      if (["en", "es", "fr", "pt"].includes(saved || "")) return saved as Language
+    } catch {
+      // Fall back to the browser language when storage is unavailable.
+    }
+    return detectBrowserLanguage()
+  })
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("stranger-language", language)
+    } catch {
+      // Keep the in-memory selection when browser storage is unavailable.
+    }
+  }, [language])
 
   const value = {
     language,

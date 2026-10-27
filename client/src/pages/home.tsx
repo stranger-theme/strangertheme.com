@@ -1,15 +1,18 @@
 import { motion } from "framer-motion"
+import { useState } from "react"
 import { RetroGrid } from "@/components/retro-grid"
 import { ThemeSwitcher } from "@/components/theme-switcher"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
-import { Terminal, Code, Cpu, Activity, Zap, Github } from "lucide-react"
+import { Terminal, Code, Cpu, Activity, Zap, Github, Search } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
+import { platforms, searchPlatforms } from "@/lib/platforms"
+import { Input } from "@/components/ui/input"
 
 export default function Home() {
   const { t } = useI18n()
+  const [query, setQuery] = useState("")
+  const visiblePlatforms = searchPlatforms(platforms, query)
 
   const features = [
     {
@@ -19,8 +22,8 @@ export default function Home() {
     },
     {
       icon: <Zap className="w-8 h-8 text-primary" />,
-      title: t.neonGlows,
-      desc: t.neonGlowsDesc,
+      title: t.darkThemes,
+      desc: t.darkThemesDesc,
     },
     {
       icon: <Activity className="w-8 h-8 text-primary" />,
@@ -30,12 +33,12 @@ export default function Home() {
   ]
 
   return (
-    <div className="min-h-screen text-foreground font-sans selection:bg-primary selection:text-primary-foreground overflow-x-hidden transition-colors duration-700 relative">
+    <div className="min-h-screen text-foreground font-sans selection:bg-primary selection:text-primary-foreground overflow-x-clip transition-colors duration-700 relative">
       <RetroGrid />
 
       <ThemeSwitcher />
 
-      <main className="container mx-auto px-4 pt-24 pb-12 relative z-10">
+      <main className="container mx-auto px-4 pt-12 pb-12 relative z-10">
         {/* Hero Section */}
         <section className="text-center mb-24 relative">
           <motion.h1
@@ -62,15 +65,22 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.8 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6"
           >
-            <Button
+            <Button asChild
               size="lg"
               variant="outline"
               className="border-primary/50 text-primary hover:bg-primary/10 shadow-[0_0_10px_hsl(var(--primary)/0.2)] font-mono h-14 px-8 backdrop-blur-sm gap-2"
-              onClick={() => window.open("https://github.com/stranger-theme/stranger-theme", "_blank")}
             >
-              <Github className="w-5 h-5" />
-              {t.viewDocs}
+              <a href="https://github.com/stranger-theme/stranger-theme" target="_blank" rel="noopener noreferrer">
+                <Github aria-hidden="true" className="w-5 h-5" />
+                {t.viewDocs}
+              </a>
             </Button>
+            <a
+              href="#platforms"
+              className="inline-flex h-14 items-center gap-2 rounded-md bg-primary px-8 font-mono font-bold text-primary-foreground shadow-[0_0_20px_hsl(var(--primary)/0.35)] transition hover:brightness-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            >
+              {t.installNow}
+            </a>
             <a
               href="https://www.producthunt.com/products/stranger-theme?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-stranger-theme"
               target="_blank"
@@ -88,7 +98,7 @@ export default function Home() {
         </section>
 
         {/* Supported IDEs Section */}
-        <section className="mb-24">
+        <section id="platforms" className="mb-24 scroll-mt-36">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -102,185 +112,59 @@ export default function Home() {
             <p className="text-muted-foreground font-mono text-sm">{t.oneThemeAllPlatforms}</p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
-            {/* VS Code - Available */}
-            <motion.a
-              href="https://marketplace.visualstudio.com/items?itemName=StrangerTheme.stranger-theme-vscode"
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="group"
-            >
-              <Card className="bg-card/80 border-border hover:border-primary/50 transition-all duration-300 h-full backdrop-blur-sm cursor-pointer group-hover:shadow-[0_0_20px_hsl(var(--primary)/0.2)]">
-                <CardContent className="p-4 flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-[#007ACC] flex items-center justify-center text-white font-bold text-xl shrink-0">
-                    VS
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-display font-bold text-foreground break-words leading-tight">
-                      Visual Studio Code
-                    </h3>
-                    <span className="text-xs font-mono text-green-500">{t.available}</span>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.a>
-
-            {/* JetBrains - Available */}
-            <motion.a
-              href="https://plugins.jetbrains.com/plugin/29608-stranger-theme"
-              target="_blank"
-              rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="group"
-            >
-              <Card className="bg-card/80 border-border hover:border-primary/50 transition-all duration-300 h-full backdrop-blur-sm cursor-pointer group-hover:shadow-[0_0_20px_hsl(var(--primary)/0.2)]">
-                <CardContent className="p-4 flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#FE315D] to-[#F97A12] flex items-center justify-center text-white font-bold text-xl shrink-0">
-                    JB
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-display font-bold text-foreground break-words leading-tight">
-                      JetBrains IDEs
-                    </h3>
-                    <span className="text-xs font-mono text-green-500">{t.available}</span>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.a>
-
-            {/* Vim - Coming Soon */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              <Card className="bg-card/50 border-border/50 h-full backdrop-blur-sm opacity-60">
-                <CardContent className="p-4 flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-[#019833] flex items-center justify-center text-white font-bold text-xl shrink-0">
-                    Vi
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-display font-bold text-foreground/70 break-words leading-tight">Vim</h3>
-                    <span className="text-xs font-mono text-yellow-500">{t.comingSoon}</span>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Sublime - Coming Soon */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
-              <Card className="bg-card/50 border-border/50 h-full backdrop-blur-sm opacity-60">
-                <CardContent className="p-4 flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-[#FF9800] flex items-center justify-center text-white font-bold text-xl shrink-0">
-                    ST
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-display font-bold text-foreground/70 break-words leading-tight">
-                      Sublime Text
-                    </h3>
-                    <span className="text-xs font-mono text-yellow-500">{t.comingSoon}</span>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* iTerm2 - Coming Soon */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-            >
-              <Card className="bg-card/50 border-border/50 h-full backdrop-blur-sm opacity-60">
-                <CardContent className="p-4 flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-[#000000] flex items-center justify-center text-green-400 font-bold text-xl shrink-0">
-                    iT
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-display font-bold text-foreground/70 break-words leading-tight">iTerm2</h3>
-                    <span className="text-xs font-mono text-yellow-500">{t.comingSoon}</span>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Hyper - Coming Soon */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-            >
-              <Card className="bg-card/50 border-border/50 h-full backdrop-blur-sm opacity-60">
-                <CardContent className="p-4 flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#50E3C2] to-[#7B61FF] flex items-center justify-center text-white font-bold text-xl shrink-0">
-                    Hy
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-display font-bold text-foreground/70 break-words leading-tight">Hyper</h3>
-                    <span className="text-xs font-mono text-yellow-500">{t.comingSoon}</span>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Windows Terminal - Coming Soon */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.7 }}
-            >
-              <Card className="bg-card/50 border-border/50 h-full backdrop-blur-sm opacity-60">
-                <CardContent className="p-4 flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-[#0078D4] flex items-center justify-center text-white font-bold text-xl shrink-0">
-                    WT
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-display font-bold text-foreground/70 break-words leading-tight">
-                      Windows Terminal
-                    </h3>
-                    <span className="text-xs font-mono text-yellow-500">{t.comingSoon}</span>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Alacritty - Coming Soon */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.8 }}
-            >
-              <Card className="bg-card/50 border-border/50 h-full backdrop-blur-sm opacity-60">
-                <CardContent className="p-4 flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-[#F46D01] flex items-center justify-center text-white font-bold text-xl shrink-0">
-                    Al
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-display font-bold text-foreground/70 break-words leading-tight">
-                      Alacritty
-                    </h3>
-                    <span className="text-xs font-mono text-yellow-500">{t.comingSoon}</span>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
+          <div className="max-w-4xl mx-auto mb-6 relative">
+            <Search
+              aria-hidden="true"
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"
+            />
+            <Input
+              aria-label={t.searchPlatforms}
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder={t.searchPlatforms}
+              className="pl-10 bg-card/70 border-border font-mono"
+            />
           </div>
+          {visiblePlatforms.length ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
+              {visiblePlatforms.map((platform, i) => (
+                <motion.a
+                  key={platform.name}
+                  href={platform.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.35, delay: i * 0.03 }}
+                  className="group rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  <Card className="bg-card/70 border-border group-hover:border-primary/50 transition-all duration-300 h-full backdrop-blur-sm group-hover:shadow-[0_0_20px_hsl(var(--primary)/0.2)]">
+                    <CardContent className="p-4 flex items-center gap-4">
+                      <div
+                        aria-hidden="true"
+                        className="w-12 h-12 rounded-lg bg-primary/10 border border-primary/30 flex items-center justify-center text-primary font-display font-bold text-lg shrink-0"
+                      >
+                        {platform.mark}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-display font-bold text-foreground break-words leading-tight">
+                          {platform.name}
+                        </h3>
+                        <span className="text-xs font-mono text-muted-foreground">
+                          {t.installPlatform}
+                        </span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.a>
+              ))}
+            </div>
+          ) : (
+            <p role="status" className="text-center text-muted-foreground font-mono text-sm">
+              {t.noPlatformsFound}
+            </p>
+          )}
         </section>
 
         {/* Editor Preview Section */}
@@ -323,7 +207,7 @@ export default function Home() {
                     <span style={{ color: "hsl(var(--syntax-variable))" }}>Portal</span>,{" "}
                     <span style={{ color: "hsl(var(--syntax-variable))" }}>Dimension</span> {"}"}{" "}
                     <span style={{ color: "hsl(var(--syntax-keyword))" }}>from</span>{" "}
-                    <span style={{ color: "hsl(var(--syntax-string))" }}>'@hawkins/lab'</span>;
+                    <span style={{ color: "hsl(var(--syntax-string))" }}>&apos;@hawkins/lab&apos;</span>;
                   </code>
                   <code className="whitespace-pre">
                     <span className="text-muted-foreground select-none w-6 inline-block text-right mr-4">
@@ -355,7 +239,7 @@ export default function Home() {
                       6
                     </span>{" "}
                     <span style={{ color: "hsl(var(--syntax-variable))" }}>name</span> ={" "}
-                    <span style={{ color: "hsl(var(--syntax-string))" }}>"The Upside Down"</span>;
+                    <span style={{ color: "hsl(var(--syntax-string))" }}>&quot;The Upside Down&quot;</span>;
                   </code>
                   <code className="whitespace-pre">
                     <span className="text-muted-foreground select-none w-6 inline-block text-right mr-4">

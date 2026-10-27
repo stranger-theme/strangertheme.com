@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo, useRef } from "react"
+import { useReducedMotion } from "framer-motion"
 import { cn } from "@/lib/utils"
 
 interface RetroGridProps {
@@ -6,38 +7,28 @@ interface RetroGridProps {
 }
 
 export function RetroGrid({ className }: RetroGridProps) {
+  const reduceMotion = useReducedMotion()
   const rotationRef = useRef(0)
-  const [, forceUpdate] = useState(0)
   const [thunderFlash, setThunderFlash] = useState(0)
 
   useEffect(() => {
-    let animationFrameId: number
-    let lastTime = performance.now()
-
-    const animate = (currentTime: number) => {
-      const delta = currentTime - lastTime
-      lastTime = currentTime
-      rotationRef.current = (rotationRef.current + delta * 0.008) % 360
-      forceUpdate(prev => prev + 1)
-      animationFrameId = requestAnimationFrame(animate)
+    if (reduceMotion) return
+    const timeouts = new Set<ReturnType<typeof setTimeout>>()
+    const later = (callback: () => void, delay: number) => {
+      const timeout = setTimeout(() => {
+        timeouts.delete(timeout)
+        callback()
+      }, delay)
+      timeouts.add(timeout)
     }
-
-    animationFrameId = requestAnimationFrame(animate)
-
-    return () => {
-      cancelAnimationFrame(animationFrameId)
-    }
-  }, [])
-
-  useEffect(() => {
     const triggerThunder = () => {
       setThunderFlash(1)
-      setTimeout(() => setThunderFlash(0.8), 50)
-      setTimeout(() => setThunderFlash(0), 100)
-      setTimeout(() => setThunderFlash(0.9), 180)
-      setTimeout(() => setThunderFlash(0), 250)
-      setTimeout(() => setThunderFlash(0.5), 320)
-      setTimeout(() => setThunderFlash(0), 450)
+      later(() => setThunderFlash(0.8), 50)
+      later(() => setThunderFlash(0), 100)
+      later(() => setThunderFlash(0.9), 180)
+      later(() => setThunderFlash(0), 250)
+      later(() => setThunderFlash(0.5), 320)
+      later(() => setThunderFlash(0), 450)
     }
 
     const interval = setInterval(triggerThunder, 7000)
@@ -47,8 +38,9 @@ export function RetroGrid({ className }: RetroGridProps) {
     return () => {
       clearInterval(interval)
       clearTimeout(initialDelay)
+      timeouts.forEach(clearTimeout)
     }
-  }, [])
+  }, [reduceMotion])
 
   const verticalLines = 32
   const horizontalRings = 24
@@ -101,6 +93,7 @@ export function RetroGrid({ className }: RetroGridProps) {
 
   return (
     <div
+      aria-hidden="true"
       className={cn("fixed inset-0 overflow-hidden pointer-events-none", className)}
       style={{ zIndex: 0 }}
     >
@@ -114,6 +107,7 @@ export function RetroGrid({ className }: RetroGridProps) {
           style={{
             filter: "drop-shadow(0 0 15px hsl(var(--primary)))",
             opacity: 0.75,
+            animation: reduceMotion ? "none" : "retro-grid-spin 90s linear infinite",
           }}
         >
           {/* Back lines first (depth < 0) */}
@@ -211,7 +205,7 @@ export function RetroGrid({ className }: RetroGridProps) {
         style={{
           background:
             "radial-gradient(ellipse at 50% 30%, rgba(255,255,255,1) 0%, rgba(220,220,255,0.6) 30%, transparent 60%)",
-          opacity: thunderFlash,
+          opacity: reduceMotion ? 0 : thunderFlash,
           zIndex: 3,
           mixBlendMode: "overlay",
         }}
