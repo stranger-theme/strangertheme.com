@@ -15,19 +15,19 @@ Verified on 2026-10-27 against local files, the Hermes export and read-only GitH
 - Theme build and assertions passed; full generation left the tracked tree unchanged.
 - Website TypeScript, lint, catalog assertions and production build passed. The existing 538 kB JavaScript bundle warning remains.
 - Existing JetBrains ZIP contains the nested plugin JAR, `META-INF/plugin.xml` and twelve theme/scheme files. Hermes recorded `buildPlugin verifyPlugin` passing; this follow-up inspected the resulting archive.
-- No remote `codex/client-expansion` branches or matching pull requests were found in either repository.
-- Latest GitHub release is `v1.0.2`, published on 2026-01-04. Its asset list does not contain the four new client archives.
-- Theme repository secret names include `NPM_TOKEN`, `VSCE_PAT`, and `JETBRAINS_MARKETPLACE_TOKEN`; `OVSX_PAT` is absent. Token validity and account permissions remain unverified.
-- Website repository has `CLOUDFLARE_ACCOUNT_ID` and `CLOUDFLARE_API_TOKEN` secret names, no repository variables and no remote Actions workflows. This does not establish whether Cloudflare has a separate Git integration.
+- Both branches were pushed. [Theme PR #2](https://github.com/stranger-theme/stranger-theme/pull/2) passed CI and was merged as `096373f`; [website PR #1](https://github.com/stranger-theme/strangertheme.com/pull/1) passed website CI and Vercel preview checks.
+- Version 1.0.3 is synchronized across package metadata, generated Hyper packages and JetBrains XML. [GitHub release 1.0.3](https://github.com/stranger-theme/stranger-theme/releases/tag/v1.0.3) is published with twelve assets. Downloaded Ghostty, Kitty, WezTerm and Zed archives match the tested source byte for byte; the downloaded VSIX contains six unchanged themes and the installable JetBrains ZIP contains its nested plugin JAR and twelve theme/scheme files.
+- The [release workflow](https://github.com/stranger-theme/stranger-theme/actions/runs/40509829058) created the release and successfully submitted JetBrains 1.0.3. VS Code publication failed because its PAT expired, npm publication failed with the rejected credentials, and Open VSX was skipped because its secret is absent. The aggregate workflow status is therefore failure, despite successful GitHub and JetBrains delivery. Submission does not prove Marketplace approval or public availability.
+- [Read-only credential diagnostics](https://github.com/stranger-theme/stranger-theme/actions/runs/40509481006) confirmed an expired `VSCE_PAT` and HTTP 401 for `NPM_TOKEN`. `OVSX_PAT` is absent. The presence of a secret name did not prove it was usable.
+- Live HTTP headers and GitHub deployment statuses confirmed that production is on Vercel. The existing Vercel Git integration creates previews. Historical Cloudflare secrets are retained without enabling a second deployment path.
+- Direct production navigation to `/about` returned HTTP 404 before the update. The website PR includes Vercel's SPA rewrite to serve the client router on direct navigation and reload.
 - Previous direct registry checks returned 404 for the expected Open VSX extension and six Hyper packages. Those earlier results do not prove the current tokens are missing or invalid.
 
 ## Remaining work, in order
 
-1. Push the branches and open pull requests; run the repository checks remotely.
-2. Add `OVSX_PAT` and verify publisher ownership and token permissions for each registry. Do not expose token values in logs.
-3. Select a release version and update package versions together, including generated Hyper package metadata. The current root, VS Code, JetBrains and Hyper packages are 1.0.2; a `v1.0.3` tag without a version update fails the release gate.
-4. Install the generated themes in the four native clients and check appearance, syntax and selection rendering. Schema and color assertions do not replace this check.
-5. Confirm the Cloudflare Pages project, production branch, domain and existing Git integration before enabling or changing deployment. Ship theme guides and artifacts before the website links to their new paths.
-6. Publish the approved release and verify each registry version, asset download and installation path. A successful local build does not prove publication.
+1. Merge the verified website PR now that release assets exist, then check the Vercel production deployment, client links and direct `/about` route.
+2. Renew `VSCE_PAT` and `NPM_TOKEN`, add `OVSX_PAT`, rerun credential diagnostics, and publish the channels requiring those credentials. Check publisher ownership and token permissions without exposing values in logs.
+3. Check public JetBrains approval and availability independently of the successful submission.
+4. Install the generated themes in the four native clients and check appearance, syntax and selection rendering. No Ghostty, Kitty, WezTerm or Zed app is installed on this machine. Schema and color assertions do not replace this check.
 
-No release tag, registry publication, secret update or production deployment was performed during this follow-up.
+Open VSX is skipped with a visible workflow warning when its secret is absent. Actual publication errors on configured registries still fail their jobs. A successful local build or authenticated username does not prove publication rights or marketplace availability.
