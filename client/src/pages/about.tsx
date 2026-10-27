@@ -13,12 +13,12 @@ export default function About() {
   const paragraphs = t.aboutStory.split("\n\n")
 
   return (
-    <div className="min-h-screen text-foreground font-sans selection:bg-primary selection:text-primary-foreground overflow-x-hidden transition-colors duration-700 relative">
+    <div className="min-h-screen text-foreground font-sans selection:bg-primary selection:text-primary-foreground overflow-x-clip transition-colors duration-700 relative">
       <RetroGrid />
 
       <ThemeSwitcher />
 
-      <main className="container mx-auto px-4 pt-24 pb-12 relative z-10 max-w-4xl">
+      <main className="container mx-auto px-4 pt-12 pb-12 relative z-10 max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -80,7 +80,7 @@ export default function About() {
                 className="mt-12 pt-8 border-t border-border/50 text-center"
               >
                 <p className="text-muted-foreground font-mono text-sm italic">
-                  "Friends don't lie." — Eleven
+                  &quot;Friends don&apos;t lie.&quot;: Eleven
                 </p>
               </motion.div>
             </CardContent>

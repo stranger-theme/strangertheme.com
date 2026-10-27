@@ -9,6 +9,7 @@ import { I18nProvider } from "@/lib/i18n"
 import NotFound from "@/pages/not-found"
 import Home from "@/pages/home"
 import About from "@/pages/about"
+import { MotionConfig } from "framer-motion"
 
 function Router() {
   return (
@@ -24,12 +25,14 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <I18nProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-          <SpeedInsights />
-          <Analytics />
-        </TooltipProvider>
+        <MotionConfig reducedMotion="user">
+          <TooltipProvider>
+            <Toaster />
+            <Router />
+            <SpeedInsights />
+            <Analytics />
+          </TooltipProvider>
+        </MotionConfig>
       </I18nProvider>
     </QueryClientProvider>
   )

@@ -40,6 +40,10 @@ lerna-debug.log*
 coverage/
 .nyc_output/
 
+# Playwright / browser test artifacts
+.playwright-mcp/
+output/
+
 # Database
 *.db
 *.sqlite

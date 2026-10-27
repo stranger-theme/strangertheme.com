@@ -68,6 +68,20 @@
   }
 }
 
+@keyframes retro-grid-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* UPSIDE DOWN (Default) - #0D1117 background */
 :root {
   --background: 215 21% 7%;
