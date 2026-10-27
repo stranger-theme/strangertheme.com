@@ -2,6 +2,12 @@
 
 This guide explains how to deploy your static frontend website to various platforms.
 
+## Current production
+
+Verified on 2026-10-27: `strangertheme.com` redirects to `www.strangertheme.com` on Vercel. The existing GitHub integration creates a Vercel preview for pull requests. Preserve this integration for production deployment after merging the verified website changes. The repository's Cloudflare secrets are historical configuration and do not establish the current hosting provider.
+
+GitHub Actions runs validation and uploads the static build; Vercel handles deployment independently. Check both the website CI and the Vercel deployment status before merging.
+
 ## Pre-Deployment Checklist
 
 - [ ] Run `npm run build` and verify no errors
