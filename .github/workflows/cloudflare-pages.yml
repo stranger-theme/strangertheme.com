@@ -1,0 +1,83 @@
+name: Cloudflare Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Inspect configuration or deploy the verified site
+        type: choice
+        default: inspect
+        options: [inspect, preview, production]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cloudflare-pages-${{ inputs.mode }}
+  cancel-in-progress: false
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    outputs:
+      project: ${{ steps.project.outputs.name }}
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Find the project serving strangertheme.com
+        id: project
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          node --input-type=module <<'JS'
+          import assert from 'node:assert/strict';
+          import { appendFileSync } from 'node:fs';
+          const { CLOUDFLARE_ACCOUNT_ID: account, CLOUDFLARE_API_TOKEN: token } = process.env;
+          assert.ok(account && token, 'Cloudflare credentials are missing');
+          const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${account}/pages/projects?per_page=100`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          assert.ok(response.ok, `Cloudflare project lookup failed: HTTP ${response.status}`);
+          const body = await response.json();
+          assert.equal(body.success, true, 'Cloudflare project lookup was unsuccessful');
+          const matches = body.result.filter(project => project.domains?.includes('strangertheme.com'));
+          assert.equal(matches.length, 1, 'Expected exactly one Pages project serving strangertheme.com');
+          const project = matches[0];
+          assert.match(project.name, /^[a-z0-9][a-z0-9-]*$/);
+          assert.equal(project.production_branch, 'main', 'Production branch must be confirmed as main');
+          console.log(JSON.stringify({ name: project.name, domains: project.domains,
+            production_branch: project.production_branch, source: project.source?.type,
+            repository: project.source?.config?.repo_name,
+            production_deployments_enabled: project.source?.config?.production_deployments_enabled,
+            current_deployment: project.canonical_deployment?.url }, null, 2));
+          appendFileSync(process.env.GITHUB_OUTPUT, `name=${project.name}\n`);
+          JS
+
+  deploy:
+    if: inputs.mode != 'inspect'
+    needs: inspect
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      PAGES_PROJECT: ${{ needs.inspect.outputs.project }}
+      DEPLOY_BRANCH: ${{ inputs.mode == 'production' && 'main' || 'client-expansion-preview' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.mode == 'production' && 'main' || github.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+      - name: Verify Cloudflare authentication
+        run: npx --yes wrangler@4 whoami
+      - name: Deploy the verified build
+        run: npx --yes wrangler@4 pages deploy dist --project-name "$PAGES_PROJECT" --branch "$DEPLOY_BRANCH"
