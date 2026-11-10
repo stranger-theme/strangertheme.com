@@ -257,6 +257,7 @@ MIT
 ## Links
 
 - [GitHub](https://github.com/stranger-theme)
+- [X](https://x.com/stranger_theme)
 
 ---
 
