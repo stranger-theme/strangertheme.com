@@ -53,7 +53,6 @@
   --color-destructive-border: var(--destructive-border);
 
   --font-display: "Orbitron", sans-serif;
-  --font-retro: "Press Start 2P", monospace;
   --font-mono: "Fira Code", monospace;
 
   --animate-grid-flow: grid-flow 2s linear infinite;
@@ -112,16 +111,6 @@
   --chart-4: 29 53% 62%; /* #D19A66 Numbers */
   --chart-5: 187 52% 55%; /* #56B6C2 Classes */
 
-  --syntax-comment: 220 9% 40%;
-  --syntax-keyword: 286 60% 67%;
-  --syntax-string: 39 67% 69%;
-  --syntax-function: 95 38% 62%;
-  --syntax-class: 187 52% 55%;
-  --syntax-variable: 60 30% 96%;
-  --syntax-number: 207 54% 61%;
-  --syntax-param: 29 54% 61%;
-  --syntax-tag: 355 65% 65%;
-
   --sidebar: 215 21% 5%;
   --sidebar-foreground: 212 32% 93%;
   --sidebar-primary: 286 60% 67%;
@@ -159,16 +148,6 @@
   --chart-3: 181 100% 41%; /* #00CED1 Turquoise */
   --chart-4: 288 59% 58%; /* #BA55D3 Orchid */
   --chart-5: 157 100% 49%; /* #00FA9A Spring green */
-
-  --syntax-comment: 263 23% 47%;
-  --syntax-keyword: 328 100% 54%;
-  --syntax-string: 51 100% 50%;
-  --syntax-function: 157 100% 49%;
-  --syntax-class: 181 100% 41%;
-  --syntax-variable: 0 0% 92%;
-  --syntax-number: 288 100% 64%;
-  --syntax-param: 32 54% 61%;
-  --syntax-tag: 328 100% 54%;
 
   --sidebar: 240 27% 11%;
   --sidebar-foreground: 0 0% 92%;
@@ -208,16 +187,6 @@
   --chart-4: 14 51% 63%; /* #D08770 Burnt orange */
   --chart-5: 316 25% 63%; /* #B48EAD Mauve */
 
-  --syntax-comment: 33 21% 34%;
-  --syntax-keyword: 27 52% 64%;
-  --syntax-string: 44 67% 73%;
-  --syntax-function: 92 32% 65%;
-  --syntax-class: 193 53% 67%;
-  --syntax-variable: 35 38% 85%;
-  --syntax-number: 316 51% 63%;
-  --syntax-param: 14 54% 61%;
-  --syntax-tag: 27 52% 64%;
-
   --sidebar: 30 29% 10%;
   --sidebar-foreground: 37 33% 85%;
   --sidebar-primary: 27 52% 64%;
@@ -255,16 +224,6 @@
   --chart-3: 180 58% 51%; /* #39CCCC Turquoise */
   --chart-4: 27 100% 55%; /* #FF851B Warning orange */
   --chart-5: 291 100% 40%; /* #B10DC9 Purple */
-
-  --syntax-comment: 207 14% 43%;
-  --syntax-keyword: 197 100% 75%;
-  --syntax-string: 52 100% 50%;
-  --syntax-function: 127 66% 49%;
-  --syntax-class: 180 58% 51%;
-  --syntax-variable: 213 23% 90%;
-  --syntax-number: 291 100% 40%;
-  --syntax-param: 27 100% 55%;
-  --syntax-tag: 197 100% 75%;
 
   --sidebar: 222 19% 10%;
   --sidebar-foreground: 210 23% 90%;
@@ -304,16 +263,6 @@
   --chart-4: 27 61% 62%; /* #DE935F Soft orange */
   --chart-5: 293 26% 65%; /* #B294BB Purple */
 
-  --syntax-comment: 0 0% 36%;
-  --syntax-keyword: 25 100% 58%;
-  --syntax-string: 45 82% 70%;
-  --syntax-function: 66 34% 57%;
-  --syntax-class: 210 33% 63%;
-  --syntax-variable: 0 0% 96%;
-  --syntax-number: 293 26% 65%;
-  --syntax-param: 27 61% 62%;
-  --syntax-tag: 25 100% 58%;
-
   --sidebar: 0 0% 7%;
   --sidebar-foreground: 0 0% 96%;
   --sidebar-primary: 25 100% 58%;
@@ -351,16 +300,6 @@
   --chart-3: 286 60% 67%; /* #C678DD Purple */
   --chart-4: 0 100% 71%; /* #FF6B6B Light red */
   --chart-5: 330 100% 67%; /* #FF55AA Pink */
-
-  --syntax-comment: 0 11% 33%;
-  --syntax-keyword: 355 65% 65%;
-  --syntax-string: 20 17% 68%;
-  --syntax-function: 30 27% 44%;
-  --syntax-class: 29 53% 62%;
-  --syntax-variable: 0 30% 87%;
-  --syntax-number: 286 60% 67%;
-  --syntax-param: 0 100% 71%;
-  --syntax-tag: 355 65% 65%;
 
   --sidebar: 0 10% 8%;
   --sidebar-foreground: 0 28% 87%;

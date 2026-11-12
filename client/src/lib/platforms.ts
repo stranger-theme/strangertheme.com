@@ -83,6 +83,15 @@ export const platforms: Platform[] = [
       download(`wezterm/stranger-theme-${v}.toml`, `~/.config/wezterm/colors/stranger-theme-${v}.toml`),
   },
   { name: "Zed", aliases: [], href: `${repository}/zed`, mark: "Z" },
+  { name: "Helix", aliases: ["hx"], href: `${repository}/helix`, mark: "Hx" },
+  { name: "tmux", aliases: [], href: `${repository}/tmux`, mark: "tm" },
+  { name: "Warp", aliases: [], href: `${repository}/terminal#warp`, mark: "Wp" },
+  {
+    name: "macOS Terminal",
+    aliases: ["terminal.app", "apple terminal"],
+    href: `${repository}/terminal#macos-terminal`,
+    mark: "MT",
+  },
 ]
 
 export function searchPlatforms(platforms: Platform[], query: string): Platform[] {

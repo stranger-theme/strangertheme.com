@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react"
+import { lazy, Suspense, useState, useEffect } from "react"
 import { themes } from "@/lib/themes"
 import { cn } from "@/lib/utils"
-import { Globe, Info } from "lucide-react"
+import { Globe, Info, Palette } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,8 +11,10 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
 import { Language, useI18n } from "@/lib/i18n"
-import { DonationModal } from "./donation-modal"
+import { DonateButton } from "./donate-button"
 import { Link } from "wouter"
+
+const DonationModal = lazy(() => import("./donation-modal"))
 
 const themeStorageKey = "stranger-theme"
 
@@ -90,6 +92,15 @@ export function ThemeSwitcher({ onThemeChange }: { onThemeChange?: (id: string) 
       {/* Right Actions: About + Lang + Donate */}
       <div className="flex items-center gap-3">
         <Link
+          href="/palette"
+          aria-label={t.palette}
+          className="inline-flex h-11 min-w-11 justify-center items-center rounded-md px-3 font-mono text-muted-foreground hover:text-primary hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          data-testid="link-palette"
+        >
+          <Palette className="w-4 h-4 mr-1" />
+          <span className="text-xs hidden sm:inline">{t.palette}</span>
+        </Link>
+        <Link
           href="/about"
           aria-label={t.about}
           className="inline-flex h-11 min-w-11 justify-center items-center rounded-md px-3 font-mono text-muted-foreground hover:text-primary hover:bg-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
@@ -133,7 +144,9 @@ export function ThemeSwitcher({ onThemeChange }: { onThemeChange?: (id: string) 
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <DonationModal />
+        <Suspense fallback={<DonateButton />}>
+          <DonationModal />
+        </Suspense>
       </div>
     </div>
   )
