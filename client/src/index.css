@@ -325,7 +325,7 @@
 }
 
 /* dimension-x - #1E1A1A background */
-[data-theme="dimensionx"] {
+[data-theme="dimension-x"] {
   --background: 0 10% 11%;
   --foreground: 0 28% 87%;
   --card: 0 10% 15%;
