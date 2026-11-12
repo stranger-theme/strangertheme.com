@@ -4,15 +4,26 @@ import { RetroGrid } from "@/components/retro-grid"
 import { ThemeSwitcher } from "@/components/theme-switcher"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Terminal, Code, Cpu, Activity, Zap, Github, Search } from "lucide-react"
+import { Terminal, Code, Cpu, Activity, Zap, Github, Search, Copy } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
 import { platforms, searchPlatforms } from "@/lib/platforms"
 import { Input } from "@/components/ui/input"
+import { toast } from "@/hooks/use-toast"
 
 export default function Home() {
   const { t } = useI18n()
   const [query, setQuery] = useState("")
+  const [variant, setVariant] = useState("upside-down")
   const visiblePlatforms = searchPlatforms(platforms, query)
+
+  const copyCommand = async (command: string) => {
+    try {
+      await navigator.clipboard.writeText(command)
+      toast({ title: t.installCommandCopied, description: command })
+    } catch {
+      toast({ variant: "destructive", title: t.copyFailed })
+    }
+  }
 
   const features = [
     {
@@ -27,8 +38,8 @@ export default function Home() {
     },
     {
       icon: <Activity className="w-8 h-8 text-primary" />,
-      title: t.sevenVariants,
-      desc: t.sevenVariantsDesc,
+      title: t.sixVariants,
+      desc: t.sixVariantsDesc,
     },
   ]
 
@@ -36,7 +47,7 @@ export default function Home() {
     <div className="min-h-screen text-foreground font-sans selection:bg-primary selection:text-primary-foreground overflow-x-clip transition-colors duration-700 relative">
       <RetroGrid />
 
-      <ThemeSwitcher />
+      <ThemeSwitcher onThemeChange={setVariant} />
 
       <main className="container mx-auto px-4 pt-12 pb-12 relative z-10">
         {/* Hero Section */}
@@ -127,38 +138,80 @@ export default function Home() {
           </div>
           {visiblePlatforms.length ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
-              {visiblePlatforms.map((platform, i) => (
-                <motion.a
-                  key={platform.name}
-                  href={platform.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.35, delay: i * 0.03 }}
-                  className="group rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                >
-                  <Card className="bg-card/70 border-border group-hover:border-primary/50 transition-all duration-300 h-full backdrop-blur-sm group-hover:shadow-[0_0_20px_hsl(var(--primary)/0.2)]">
-                    <CardContent className="p-4 flex items-center gap-4">
-                      <div
-                        aria-hidden="true"
-                        className="w-12 h-12 rounded-lg bg-primary/10 border border-primary/30 flex items-center justify-center text-primary font-display font-bold text-lg shrink-0"
-                      >
-                        {platform.mark}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-display font-bold text-foreground break-words leading-tight">
-                          {platform.name}
-                        </h3>
-                        <span className="text-xs font-mono text-muted-foreground">
-                          {t.installPlatform}
-                        </span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.a>
-              ))}
+              {visiblePlatforms.map((platform, i) => {
+                const command = platform.install?.(variant)
+                return (
+                  <motion.div
+                    key={platform.name}
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.35, delay: i * 0.03 }}
+                    className="group relative rounded-xl"
+                  >
+                    <Card className="bg-card/70 border-border group-hover:border-primary/50 transition-all duration-300 h-full backdrop-blur-sm group-hover:shadow-[0_0_20px_hsl(var(--primary)/0.2)]">
+                      <CardContent className="p-4 flex flex-col gap-3">
+                        <div className="flex items-center gap-4">
+                          <div
+                            aria-hidden="true"
+                            className="w-12 h-12 rounded-lg bg-primary/10 border border-primary/30 flex items-center justify-center text-primary font-display font-bold text-lg shrink-0"
+                          >
+                            {platform.mark}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-display font-bold text-foreground break-words leading-tight">
+                              <a
+                                href={platform.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="focus-visible:outline-none after:absolute after:inset-0 after:rounded-xl focus-visible:after:ring-2 focus-visible:after:ring-ring"
+                              >
+                                {platform.name}
+                              </a>
+                            </h3>
+                            <span className="text-xs font-mono text-muted-foreground">
+                              {t.installPlatform}
+                            </span>
+                          </div>
+                        </div>
+                        {command && (
+                          <div className="relative z-10 flex items-stretch gap-2">
+                            <code className="flex-1 min-w-0 overflow-x-auto whitespace-nowrap rounded-md border border-border bg-background/60 px-2 py-1.5 font-mono text-xs text-foreground">
+                              {command}
+                            </code>
+                            <Button
+                              type="button"
+                              variant="outline"
+                              size="sm"
+                              onClick={() => copyCommand(command)}
+                              aria-label={`${t.copyInstallCommand}: ${platform.name}`}
+                              className="h-auto shrink-0 gap-1 border-primary/50 px-2 font-mono text-xs text-primary hover:bg-primary/10"
+                            >
+                              <Copy aria-hidden="true" className="w-3 h-3" />
+                              {t.copy}
+                            </Button>
+                          </div>
+                        )}
+                        {platform.links && (
+                          <div className="relative z-10 flex flex-wrap gap-3 font-mono text-xs">
+                            {platform.links.map((link) => (
+                              <a
+                                key={link.href}
+                                href={link.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-muted-foreground underline-offset-2 transition-colors hover:text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
+                              >
+                                {link.label} ↗
+                              </a>
+                            ))}
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                )
+              })}
             </div>
           ) : (
             <p role="status" className="text-center text-muted-foreground font-mono text-sm">

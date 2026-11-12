@@ -14,8 +14,8 @@ type Translations = {
     syntaxHighlightingDesc: string
     darkThemes: string
     darkThemesDesc: string
-    sevenVariants: string
-    sevenVariantsDesc: string
+    sixVariants: string
+    sixVariantsDesc: string
     footer: string
     supportCreator: string
     donateTitle: string
@@ -29,6 +29,10 @@ type Translations = {
     searchPlatforms: string
     noPlatformsFound: string
     installPlatform: string
+    copy: string
+    copyInstallCommand: string
+    installCommandCopied: string
+    copyFailed: string
     selectLanguage: string
     about: string
     aboutTitle: string
@@ -51,8 +55,8 @@ const translations: Translations = {
       "Carefully selected colors for optimal contrast and readability in the Upside Down.",
     darkThemes: "Dark Themes",
     darkThemesDesc: "Six dark color variants designed for comfortable contrast and readable code.",
-    sevenVariants: "6 Unique Variants",
-    sevenVariantsDesc:
+    sixVariants: "6 Unique Variants",
+    sixVariantsDesc:
       "From Starcourt Mall to The Lab, switch between dimensions with a single click.",
     footer: "© 1986 Stranger Theme. Made in Hawkins.",
     supportCreator: "Support Creator",
@@ -68,6 +72,10 @@ const translations: Translations = {
     searchPlatforms: "Search clients...",
     noPlatformsFound: "No clients match your search.",
     installPlatform: "Installation guide ↗",
+    copy: "Copy",
+    copyInstallCommand: "Copy install command",
+    installCommandCopied: "Install command copied",
+    copyFailed: "Could not copy. Select the command and copy it by hand.",
     selectLanguage: "Select language",
     about: "About",
     aboutTitle: "The Story Behind Stranger Theme",
@@ -89,8 +97,8 @@ const translations: Translations = {
     darkThemes: "Temas Oscuros",
     darkThemesDesc:
       "Seis variantes oscuras diseñadas para ofrecer buen contraste y código legible.",
-    sevenVariants: "6 Variantes Únicas",
-    sevenVariantsDesc:
+    sixVariants: "6 Variantes Únicas",
+    sixVariantsDesc:
       "Desde el Centro Comercial Starcourt hasta El Laboratorio, cambia entre dimensiones con un solo clic.",
     footer: "© 1986 Stranger Theme. Hecho en Hawkins.",
     supportCreator: "Apoyar al Creador",
@@ -106,6 +114,10 @@ const translations: Translations = {
     searchPlatforms: "Buscar clientes...",
     noPlatformsFound: "Ningún cliente coincide con tu búsqueda.",
     installPlatform: "Guía de instalación ↗",
+    copy: "Copiar",
+    copyInstallCommand: "Copiar comando de instalación",
+    installCommandCopied: "Comando de instalación copiado",
+    copyFailed: "No se pudo copiar. Selecciona el comando y cópialo a mano.",
     selectLanguage: "Seleccionar idioma",
     about: "Acerca de",
     aboutTitle: "La Historia Detrás de Stranger Theme",
@@ -127,8 +139,8 @@ const translations: Translations = {
     darkThemes: "Thèmes Sombres",
     darkThemesDesc:
       "Six variantes sombres conçues pour un contraste confortable et un code lisible.",
-    sevenVariants: "6 Variantes Uniques",
-    sevenVariantsDesc:
+    sixVariants: "6 Variantes Uniques",
+    sixVariantsDesc:
       "Du centre commercial Starcourt au Laboratoire, changez de dimension en un clic.",
     footer: "© 1986 Stranger Theme. Fait à Hawkins.",
     supportCreator: "Soutenir le Créateur",
@@ -144,6 +156,10 @@ const translations: Translations = {
     searchPlatforms: "Rechercher un client...",
     noPlatformsFound: "Aucun client ne correspond à votre recherche.",
     installPlatform: "Guide d'installation ↗",
+    copy: "Copier",
+    copyInstallCommand: "Copier la commande d'installation",
+    installCommandCopied: "Commande d'installation copiée",
+    copyFailed: "Copie impossible. Sélectionnez la commande et copiez-la à la main.",
     selectLanguage: "Choisir la langue",
     about: "À Propos",
     aboutTitle: "L'Histoire Derrière Stranger Theme",
@@ -165,8 +181,8 @@ const translations: Translations = {
     darkThemes: "Temas Escuros",
     darkThemesDesc:
       "Seis variantes escuras projetadas para oferecer contraste confortável e código legível.",
-    sevenVariants: "6 Variantes Únicas",
-    sevenVariantsDesc:
+    sixVariants: "6 Variantes Únicas",
+    sixVariantsDesc:
       "Do Shopping Starcourt ao Laboratório, alterne entre dimensões com um único clique.",
     footer: "© 1986 Stranger Theme. Feito em Hawkins.",
     supportCreator: "Apoiar Criador",
@@ -182,6 +198,10 @@ const translations: Translations = {
     searchPlatforms: "Buscar clientes...",
     noPlatformsFound: "Nenhum cliente corresponde à sua busca.",
     installPlatform: "Guia de instalação ↗",
+    copy: "Copiar",
+    copyInstallCommand: "Copiar comando de instalação",
+    installCommandCopied: "Comando de instalação copiado",
+    copyFailed: "Não foi possível copiar. Selecione o comando e copie manualmente.",
     selectLanguage: "Selecionar idioma",
     about: "Sobre",
     aboutTitle: "A História Por Trás do Stranger Theme",

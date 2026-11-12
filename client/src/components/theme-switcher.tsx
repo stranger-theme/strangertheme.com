@@ -16,7 +16,7 @@ import { Link } from "wouter"
 
 const themeStorageKey = "stranger-theme"
 
-export function ThemeSwitcher() {
+export function ThemeSwitcher({ onThemeChange }: { onThemeChange?: (id: string) => void } = {}) {
   const [theme, setTheme] = useState<string>(() => {
     try {
       const saved = localStorage.getItem(themeStorageKey)
@@ -30,12 +30,13 @@ export function ThemeSwitcher() {
   useEffect(() => {
     const root = document.documentElement
     root.setAttribute("data-theme", theme)
+    onThemeChange?.(theme)
     try {
       localStorage.setItem(themeStorageKey, theme)
     } catch {
       // Keep the in-memory selection when browser storage is unavailable.
     }
-  }, [theme])
+  }, [theme, onThemeChange])
 
   const languages: { code: Language; label: string }[] = [
     { code: "en", label: "EN" },

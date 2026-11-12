@@ -103,7 +103,7 @@ export const themes: Theme[] = [
     },
   },
   {
-    id: "dimensionx",
+    id: "dimension-x",
     name: "Dimension X",
     colors: {
       background: "#1E1A1A",
