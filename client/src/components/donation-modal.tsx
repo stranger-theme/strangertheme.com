@@ -7,8 +7,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { Heart, CreditCard, QrCode } from "lucide-react"
+import { CreditCard, QrCode } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
+import { DonateButton } from "./donate-button"
 
 const DONATION_LINKS = {
   international: "https://donate.stripe.com/eVq4gz2mE1CqcXy0V6bo400",
@@ -16,21 +17,14 @@ const DONATION_LINKS = {
   ptPix: "https://cobranca.c6pix.com.br/01KE5KW190F4THPMTJH5TS7ZWP",
 }
 
-export function DonationModal() {
+export default function DonationModal() {
   const { t, language } = useI18n()
   const isPt = language === "pt"
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button
-          variant="outline"
-          size="sm"
-          className="bg-transparent border-primary/50 text-primary hover:bg-primary/10 hover:text-primary shadow-[0_0_10px_hsl(var(--primary)/0.2)]"
-        >
-          <Heart className="w-4 h-4 mr-2 animate-pulse" />
-          <span className="hidden sm:inline font-mono uppercase text-xs">{t.supportCreator}</span>
-        </Button>
+        <DonateButton />
       </DialogTrigger>
       <DialogContent className="bg-card/90 backdrop-blur-md border-primary/20 text-foreground sm:max-w-md">
         <DialogHeader>

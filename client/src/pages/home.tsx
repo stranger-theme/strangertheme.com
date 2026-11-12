@@ -4,11 +4,14 @@ import { RetroGrid } from "@/components/retro-grid"
 import { ThemeSwitcher } from "@/components/theme-switcher"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Terminal, Code, Cpu, Activity, Zap, Github, Search, Copy } from "lucide-react"
+import { Code, Cpu, Activity, Zap, Github, Search, Copy, ScrollText, Tag } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
 import { platforms, searchPlatforms } from "@/lib/platforms"
 import { Input } from "@/components/ui/input"
-import { toast } from "@/hooks/use-toast"
+import { CodePreview } from "@/components/code-preview"
+import { themes } from "@/lib/themes"
+import { copyWithToast } from "@/lib/utils"
+import release from "@/data/release.json"
 
 export default function Home() {
   const { t } = useI18n()
@@ -16,14 +19,8 @@ export default function Home() {
   const [variant, setVariant] = useState("upside-down")
   const visiblePlatforms = searchPlatforms(platforms, query)
 
-  const copyCommand = async (command: string) => {
-    try {
-      await navigator.clipboard.writeText(command)
-      toast({ title: t.installCommandCopied, description: command })
-    } catch {
-      toast({ variant: "destructive", title: t.copyFailed })
-    }
-  }
+  const theme = themes.find(({ id }) => id === variant) ?? themes[0]
+  const copyCommand = (command: string) => copyWithToast(command, t.installCommandCopied, t.copyFailed)
 
   const features = [
     {
@@ -107,6 +104,16 @@ export default function Home() {
             </a>
           </motion.div>
         </section>
+
+        {/* Live preview of the selected variant */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1 }}
+          className="mb-24"
+        >
+          <CodePreview theme={theme} />
+        </motion.section>
 
         {/* Supported IDEs Section */}
         <section id="platforms" className="mb-24 scroll-mt-36">
@@ -220,124 +227,6 @@ export default function Home() {
           )}
         </section>
 
-        {/* Editor Preview Section */}
-        <section className="mb-24">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <Card className="bg-card border-border shadow-[0_0_50px_hsl(var(--primary)/0.15)] overflow-hidden backdrop-blur-sm">
-              <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-muted/50">
-                <div className="flex gap-2">
-                  <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                  <div className="w-3 h-3 rounded-full bg-green-500/80" />
-                </div>
-                <div className="ml-4 flex text-xs text-muted-foreground font-mono bg-background/50 px-3 py-1 rounded-md border border-border/50">
-                  <Terminal className="w-3 h-3 mr-2" />
-                  ~/projects/upside-down/main.tsx
-                </div>
-              </div>
-              <CardContent className="p-0 font-mono text-sm md:text-base overflow-x-auto">
-                <div className="p-6 md:p-8 flex flex-col gap-1">
-                  <code className="whitespace-pre">
-                    <span className="text-muted-foreground select-none w-6 inline-block text-right mr-4">
-                      {" "}
-                      1
-                    </span>
-                    <span style={{ color: "hsl(var(--syntax-comment))" }}>
-                      {"// Welcome to the Upside Down"}
-                    </span>
-                  </code>
-                  <code className="whitespace-pre">
-                    <span className="text-muted-foreground select-none w-6 inline-block text-right mr-4">
-                      {" "}
-                      2
-                    </span>
-                    <span style={{ color: "hsl(var(--syntax-keyword))" }}>import</span> {"{"}{" "}
-                    <span style={{ color: "hsl(var(--syntax-variable))" }}>Portal</span>,{" "}
-                    <span style={{ color: "hsl(var(--syntax-variable))" }}>Dimension</span> {"}"}{" "}
-                    <span style={{ color: "hsl(var(--syntax-keyword))" }}>from</span>{" "}
-                    <span style={{ color: "hsl(var(--syntax-string))" }}>&apos;@hawkins/lab&apos;</span>;
-                  </code>
-                  <code className="whitespace-pre">
-                    <span className="text-muted-foreground select-none w-6 inline-block text-right mr-4">
-                      {" "}
-                      3
-                    </span>
-                  </code>
-                  <code className="whitespace-pre">
-                    <span className="text-muted-foreground select-none w-6 inline-block text-right mr-4">
-                      {" "}
-                      4
-                    </span>
-                    <span style={{ color: "hsl(var(--syntax-keyword))" }}>class</span>{" "}
-                    <span style={{ color: "hsl(var(--syntax-class))" }}>UpsideDown</span>{" "}
-                    <span style={{ color: "hsl(var(--syntax-keyword))" }}>extends</span>{" "}
-                    <span style={{ color: "hsl(var(--syntax-class))" }}>Dimension</span> {"{"}
-                  </code>
-                  <code className="whitespace-pre">
-                    <span className="text-muted-foreground select-none w-6 inline-block text-right mr-4">
-                      {" "}
-                      5
-                    </span>{" "}
-                    <span style={{ color: "hsl(var(--syntax-variable))" }}>dangerLevel</span> ={" "}
-                    <span style={{ color: "hsl(var(--syntax-number))" }}>11</span>;
-                  </code>
-                  <code className="whitespace-pre">
-                    <span className="text-muted-foreground select-none w-6 inline-block text-right mr-4">
-                      {" "}
-                      6
-                    </span>{" "}
-                    <span style={{ color: "hsl(var(--syntax-variable))" }}>name</span> ={" "}
-                    <span style={{ color: "hsl(var(--syntax-string))" }}>&quot;The Upside Down&quot;</span>;
-                  </code>
-                  <code className="whitespace-pre">
-                    <span className="text-muted-foreground select-none w-6 inline-block text-right mr-4">
-                      {" "}
-                      7
-                    </span>
-                  </code>
-                  <code className="whitespace-pre">
-                    <span className="text-muted-foreground select-none w-6 inline-block text-right mr-4">
-                      {" "}
-                      8
-                    </span>{" "}
-                    <span style={{ color: "hsl(var(--syntax-function))" }}>openGate</span>(
-                    <span style={{ color: "hsl(var(--syntax-param))" }}>location</span>) {"{"}
-                  </code>
-                  <code className="whitespace-pre">
-                    <span className="text-muted-foreground select-none w-6 inline-block text-right mr-4">
-                      {" "}
-                      9
-                    </span>{" "}
-                    <span style={{ color: "hsl(var(--syntax-keyword))" }}>return</span> &lt;
-                    <span style={{ color: "hsl(var(--syntax-class))" }}>Portal</span>{" "}
-                    <span style={{ color: "hsl(var(--syntax-function))" }}>to</span>=
-                    <span style={{ color: "hsl(var(--syntax-class))" }}>{"{"}</span>
-                    <span style={{ color: "hsl(var(--syntax-param))" }}>location</span>
-                    <span style={{ color: "hsl(var(--syntax-class))" }}>{"}"}</span> /&gt;;
-                  </code>
-                  <code className="whitespace-pre">
-                    <span className="text-muted-foreground select-none w-6 inline-block text-right mr-4">
-                      10
-                    </span>{" "}
-                    {"}"}
-                  </code>
-                  <code className="whitespace-pre">
-                    <span className="text-muted-foreground select-none w-6 inline-block text-right mr-4">
-                      11
-                    </span>
-                    {"}"}
-                  </code>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </section>
-
         {/* Features Grid */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-24">
           {features.map((feature, i) => (
@@ -373,7 +262,7 @@ export default function Home() {
             <div className="h-px bg-border w-12" />
           </div>
           <p className="text-muted-foreground font-mono text-sm">{t.footer}</p>
-          <nav aria-label="Social" className="mt-4 flex items-center justify-center gap-6 font-mono text-sm">
+          <nav aria-label="Social" className="mt-4 flex flex-wrap items-center justify-center gap-6 font-mono text-sm">
             <a
               href="https://x.com/stranger_theme"
               target="_blank"
@@ -393,6 +282,21 @@ export default function Home() {
             >
               <Github aria-hidden="true" className="w-4 h-4" />
               GitHub
+            </a>
+            <a href={release.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-primary">
+              <Tag aria-hidden="true" className="w-4 h-4" />
+              <span>
+                <span className="sr-only">{t.latestVersion}: </span>v{release.version}
+              </span>
+            </a>
+            <a
+              href="https://github.com/stranger-theme/stranger-theme/blob/main/CHANGELOG.md"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-primary"
+            >
+              <ScrollText aria-hidden="true" className="w-4 h-4" />
+              {t.changelog}
             </a>
           </nav>
         </footer>

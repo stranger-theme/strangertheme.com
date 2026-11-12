@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react"
 import { Switch, Route } from "wouter"
 import { SpeedInsights } from "@vercel/speed-insights/react"
 import { Analytics } from "@vercel/analytics/react"
@@ -8,16 +9,21 @@ import { TooltipProvider } from "@/components/ui/tooltip"
 import { I18nProvider } from "@/lib/i18n"
 import NotFound from "@/pages/not-found"
 import Home from "@/pages/home"
-import About from "@/pages/about"
 import { MotionConfig } from "framer-motion"
+
+const About = lazy(() => import("@/pages/about"))
+const Palette = lazy(() => import("@/pages/palette"))
 
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/about" component={About} />
-      <Route component={NotFound} />
-    </Switch>
+    <Suspense fallback={null}>
+      <Switch>
+        <Route path="/" component={Home} />
+        <Route path="/about" component={About} />
+        <Route path="/palette" component={Palette} />
+        <Route component={NotFound} />
+      </Switch>
+    </Suspense>
   )
 }
 

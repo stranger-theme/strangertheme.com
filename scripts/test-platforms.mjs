@@ -11,7 +11,9 @@ const { platforms, searchPlatforms } = await import(
   `data:text/javascript;base64,${Buffer.from(outputText).toString("base64")}`
 )
 
-assert.equal(platforms.length, 12)
+for (const name of ["Helix", "tmux", "Warp", "macOS Terminal"]) {
+  assert.ok(platforms.some((platform) => platform.name === name), `catalog lists ${name}`)
+}
 assert.equal(new Set(platforms.map(({ name }) => name)).size, platforms.length)
 assert.deepEqual(searchPlatforms(platforms, "   "), platforms)
 for (const [query, expected] of [
@@ -29,9 +31,22 @@ assert.deepEqual(searchPlatforms(platforms, "no-such-client"), [])
 for (const { href } of platforms) assert.equal(new URL(href).protocol, "https:")
 console.log("Platform catalog: aliases, whitespace, case, empty state and links passed")
 
+const palettes = JSON.parse(readFileSync(new URL("../client/src/data/palettes.json", import.meta.url), "utf8"))
+const variants = Object.keys(palettes)
+assert.equal(variants.length, 6)
+const paletteHexes = new Set()
+for (const [id, { base, ansi }] of Object.entries(palettes)) {
+  assert.equal(Object.keys(base).length, 11, `${id}: 11 base colours`)
+  assert.equal(Object.keys(ansi).length, 16, `${id}: 16 ANSI colours`)
+  for (const hex of [...Object.values(base), ...Object.values(ansi)]) {
+    assert.match(hex, /^#[0-9A-F]{6}$/i, `${id}: ${hex} is a hex colour`)
+    paletteHexes.add(hex.toUpperCase())
+  }
+}
 const themesSource = readFileSync(new URL("../client/src/lib/themes.ts", import.meta.url), "utf8")
-const variants = [...themesSource.matchAll(/^\s+id: "([^"]+)"/gm)].map(([, id]) => id)
-assert.ok(variants.length > 1)
+const duplicated = (themesSource.match(/#[0-9A-F]{6}\b/gi) ?? []).filter((hex) => paletteHexes.has(hex.toUpperCase()))
+assert.deepEqual(duplicated, [], "themes.ts reads colours from palettes.json instead of repeating them")
+console.log("palettes.json: six variants with 11 base and 16 ANSI colours, none repeated in themes.ts passed")
 const installers = platforms.filter(({ install }) => install)
 assert.ok(installers.length > 0)
 for (const { name, install } of installers) {
@@ -56,6 +71,7 @@ const sitemap = readFileSync(publicFile("sitemap.xml"), "utf8")
 const app = readFileSync(new URL("../client/src/App.tsx", import.meta.url), "utf8")
 const routes = [...app.matchAll(/<Route\s+path="([^"]+)"/g)].map(([, path]) => path)
 assert.ok(routes.includes("/"))
+assert.ok(routes.includes("/palette"))
 for (const path of routes) {
   assert.ok(sitemap.includes(`<loc>https://www.strangertheme.com${path}</loc>`), `sitemap lists ${path}`)
 }
