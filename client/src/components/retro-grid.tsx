@@ -1,13 +1,8 @@
 import { useEffect, useState, useMemo, useRef } from "react"
-import { useReducedMotion } from "framer-motion"
-import { cn } from "@/lib/utils"
 
-interface RetroGridProps {
-  className?: string
-}
-
-export function RetroGrid({ className }: RetroGridProps) {
-  const reduceMotion = useReducedMotion()
+/** Client only: Background mounts it after hydration, so window is available. */
+export default function RetroGrid() {
+  const [reduceMotion] = useState(() => window.matchMedia("(prefers-reduced-motion: reduce)").matches)
   const rotationRef = useRef(0)
   const [thunderFlash, setThunderFlash] = useState(0)
 
@@ -94,7 +89,7 @@ export function RetroGrid({ className }: RetroGridProps) {
   return (
     <div
       aria-hidden="true"
-      className={cn("fixed inset-0 overflow-hidden pointer-events-none", className)}
+      className="fixed inset-0 overflow-hidden pointer-events-none animate-in fade-in duration-1000"
       style={{ zIndex: 0 }}
     >
       <div className="absolute inset-0 bg-background" />

@@ -1,5 +1,8 @@
-import { RetroGrid } from "@/components/retro-grid"
+import { Background } from "@/components/background"
 import { ThemeSwitcher } from "@/components/theme-switcher"
+import { Button } from "@/components/ui/button"
+import { ArrowLeft } from "lucide-react"
+import { Link } from "wouter"
 import { useI18n } from "@/lib/i18n"
 import { themes, type Slot } from "@/lib/themes"
 import { copyWithToast } from "@/lib/utils"
@@ -29,10 +32,16 @@ export default function Palette() {
 
   return (
     <div className="min-h-screen text-foreground font-sans selection:bg-primary selection:text-primary-foreground overflow-x-clip transition-colors duration-700 relative">
-      <RetroGrid />
+      <Background />
       <ThemeSwitcher />
 
       <main className="container mx-auto px-4 pt-12 pb-12 relative z-10 max-w-5xl">
+        <Button asChild variant="ghost" className="mb-8 text-muted-foreground hover:text-primary">
+          <Link href="/" data-testid="button-back-home">
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            {t.backHome}
+          </Link>
+        </Button>
         <h1 className="text-4xl md:text-6xl font-display font-black tracking-tighter text-center mb-4">
           {t.paletteTitle}
         </h1>

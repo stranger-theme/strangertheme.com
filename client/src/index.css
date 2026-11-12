@@ -67,6 +67,22 @@
   }
 }
 
+/* Scroll reveal without JavaScript: prerendered content stays visible where view timelines are unsupported. */
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: reveal linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+}
+
 @keyframes retro-grid-spin {
   to {
     transform: rotate(360deg);

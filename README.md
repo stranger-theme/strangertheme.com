@@ -70,7 +70,7 @@ npm run preview
 | Script | Description |
 |--------|-------------|
 | `npm run dev` | Start Vite dev server on port 3000 |
-| `npm run build` | Build for production |
+| `npm run build` | Build for production, prerender every route to HTML and generate `sitemap.xml` |
 | `npm run preview` | Preview production build locally |
 | `npm run check` | Run TypeScript type checking |
 

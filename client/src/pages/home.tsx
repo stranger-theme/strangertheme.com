@@ -1,16 +1,15 @@
-import { motion } from "framer-motion"
 import { useState } from "react"
-import { RetroGrid } from "@/components/retro-grid"
+import { Background } from "@/components/background"
 import { ThemeSwitcher } from "@/components/theme-switcher"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Code, Cpu, Activity, Zap, Github, Search, Copy, ScrollText, Tag } from "lucide-react"
+import { Code, Cpu, Activity, Zap, Github, Search, ScrollText, Tag } from "lucide-react"
 import { useI18n } from "@/lib/i18n"
 import { platforms, searchPlatforms } from "@/lib/platforms"
 import { Input } from "@/components/ui/input"
 import { CodePreview } from "@/components/code-preview"
+import { InstallCommand } from "@/components/install-command"
 import { themes } from "@/lib/themes"
-import { copyWithToast } from "@/lib/utils"
 import release from "@/data/release.json"
 
 export default function Home() {
@@ -20,7 +19,6 @@ export default function Home() {
   const visiblePlatforms = searchPlatforms(platforms, query)
 
   const theme = themes.find(({ id }) => id === variant) ?? themes[0]
-  const copyCommand = (command: string) => copyWithToast(command, t.installCommandCopied, t.copyFailed)
 
   const features = [
     {
@@ -42,36 +40,25 @@ export default function Home() {
 
   return (
     <div className="min-h-screen text-foreground font-sans selection:bg-primary selection:text-primary-foreground overflow-x-clip transition-colors duration-700 relative">
-      <RetroGrid />
+      <Background />
 
       <ThemeSwitcher onThemeChange={setVariant} />
 
       <main className="container mx-auto px-4 pt-12 pb-12 relative z-10">
         {/* Hero Section */}
         <section className="text-center mb-24 relative">
-          <motion.h1
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="text-5xl md:text-8xl font-display font-black tracking-tighter mb-6 text-transparent bg-clip-text bg-gradient-to-b from-foreground to-foreground/80 drop-shadow-[0_0_30px_hsl(var(--primary)/0.5)] whitespace-pre-line"
+          <h1
+            className="animate-in fade-in zoom-in-90 duration-1000 delay-200 fill-mode-both text-5xl md:text-8xl font-display font-black tracking-tighter mb-6 text-transparent bg-clip-text bg-gradient-to-b from-foreground to-foreground/80 drop-shadow-[0_0_30px_hsl(var(--primary)/0.5)] whitespace-pre-line"
           >
             {t.title}
-          </motion.h1>
+          </h1>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.5 }}
-            className="text-xl md:text-2xl text-muted-foreground mx-auto font-mono mb-10 whitespace-pre-line"
+          <p className="animate-in fade-in duration-1000 delay-500 fill-mode-both text-xl md:text-2xl text-muted-foreground mx-auto font-mono mb-10 whitespace-pre-line"
           >
             {t.subtitle}
-          </motion.p>
+          </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6"
+          <div className="animate-in fade-in slide-in-from-bottom-5 duration-800 delay-800 fill-mode-both flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6"
           >
             <Button asChild
               size="lg"
@@ -102,33 +89,22 @@ export default function Home() {
                 src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1059824&theme=neutral&t=1767823358022"
               />
             </a>
-          </motion.div>
+          </div>
         </section>
 
         {/* Live preview of the selected variant */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1 }}
-          className="mb-24"
-        >
+        <section className="animate-in fade-in slide-in-from-bottom-5 duration-800 delay-1000 fill-mode-both mb-24">
           <CodePreview theme={theme} />
-        </motion.section>
+        </section>
 
         {/* Supported IDEs Section */}
         <section id="platforms" className="mb-24 scroll-mt-36">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-8"
-          >
+          <div className="reveal text-center mb-8">
             <h2 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-2">
               {t.supportedPlatforms}
             </h2>
             <p className="text-muted-foreground font-mono text-sm">{t.oneThemeAllPlatforms}</p>
-          </motion.div>
+          </div>
 
           <div className="max-w-4xl mx-auto mb-6 relative">
             <Search
@@ -145,17 +121,10 @@ export default function Home() {
           </div>
           {visiblePlatforms.length ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
-              {visiblePlatforms.map((platform, i) => {
+              {visiblePlatforms.map((platform) => {
                 const command = platform.install?.(variant)
                 return (
-                  <motion.div
-                    key={platform.name}
-                    initial={{ opacity: 0, y: 12 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.35, delay: i * 0.03 }}
-                    className="group relative rounded-xl"
-                  >
+                  <div key={platform.name} className="reveal group relative rounded-xl">
                     <Card className="bg-card/70 border-border group-hover:border-primary/50 transition-all duration-300 h-full backdrop-blur-sm group-hover:shadow-[0_0_20px_hsl(var(--primary)/0.2)]">
                       <CardContent className="p-4 flex flex-col gap-3">
                         <div className="flex items-center gap-4">
@@ -168,9 +137,7 @@ export default function Home() {
                           <div className="flex-1 min-w-0">
                             <h3 className="font-display font-bold text-foreground break-words leading-tight">
                               <a
-                                href={platform.href}
-                                target="_blank"
-                                rel="noopener noreferrer"
+                                href={`/${platform.slug}`}
                                 className="focus-visible:outline-none after:absolute after:inset-0 after:rounded-xl focus-visible:after:ring-2 focus-visible:after:ring-ring"
                               >
                                 {platform.name}
@@ -181,24 +148,7 @@ export default function Home() {
                             </span>
                           </div>
                         </div>
-                        {command && (
-                          <div className="relative z-10 flex items-stretch gap-2">
-                            <code className="flex-1 min-w-0 overflow-x-auto whitespace-nowrap rounded-md border border-border bg-background/60 px-2 py-1.5 font-mono text-xs text-foreground">
-                              {command}
-                            </code>
-                            <Button
-                              type="button"
-                              variant="outline"
-                              size="sm"
-                              onClick={() => copyCommand(command)}
-                              aria-label={`${t.copyInstallCommand}: ${platform.name}`}
-                              className="h-auto shrink-0 gap-1 border-primary/50 px-2 font-mono text-xs text-primary hover:bg-primary/10"
-                            >
-                              <Copy aria-hidden="true" className="w-3 h-3" />
-                              {t.copy}
-                            </Button>
-                          </div>
-                        )}
+                        {command && <InstallCommand command={command} name={platform.name} />}
                         {platform.links && (
                           <div className="relative z-10 flex flex-wrap gap-3 font-mono text-xs">
                             {platform.links.map((link) => (
@@ -216,7 +166,7 @@ export default function Home() {
                         )}
                       </CardContent>
                     </Card>
-                  </motion.div>
+                  </div>
                 )
               })}
             </div>
@@ -230,13 +180,7 @@ export default function Home() {
         {/* Features Grid */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-24">
           {features.map((feature, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-            >
+            <div key={i} className="reveal">
               <Card className="bg-card/50 border-border hover:border-primary/50 transition-colors h-full backdrop-blur-sm group">
                 <CardHeader>
                   <div className="mb-4 p-3 bg-primary/10 w-fit rounded-lg group-hover:bg-primary/20 transition-colors">
@@ -250,7 +194,7 @@ export default function Home() {
                   </p>
                 </CardContent>
               </Card>
-            </motion.div>
+            </div>
           ))}
         </section>
 

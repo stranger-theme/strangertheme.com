@@ -382,8 +382,7 @@ All recommended platforms (Vercel, Netlify, Cloudflare) support automatic deploy
    - Leverage browser caching
 
 3. **SEO:**
-   - Update meta tags in `client/index.html`
-   - Add sitemap.xml
+   - Page titles, descriptions and JSON-LD live in `client/src/lib/routes.ts`; `npm run build` prerenders every route and writes `sitemap.xml` from the same list
    - Submit to Google Search Console
 
 4. **Security:**

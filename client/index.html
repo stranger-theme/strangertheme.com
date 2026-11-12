@@ -4,18 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Primary Meta Tags -->
-    <title>Stranger Theme - Six Dark Themes for Editors and Terminals</title>
-    <link rel="canonical" href="https://www.strangertheme.com/" />
-    <meta name="title" content="Stranger Theme - Six Dark Themes for Editors and Terminals" />
-    <meta name="description" content="Stranger Theme: six dark color themes inspired by Stranger Things for code editors, IDEs and terminals, built for focus, readability and long coding sessions." />
+    <!-- Primary Meta Tags: scripts/prerender.mjs replaces the title and adds each page's description, canonical, og:url and JSON-LD -->
+    <title>Stranger Theme</title>
     <meta name="keywords" content="IDE theme, VS Code theme, JetBrains theme, dark theme, Stranger Things, code editor theme, syntax highlighting" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.strangertheme.com/" />
-    <meta property="og:title" content="Stranger Theme - Six Dark Themes for Editors and Terminals" />
-    <meta property="og:description" content="Turn your coding environment upside down. A dark theme collection inspired by the famous series Stranger Things. Available for code editors, IDEs and terminals." />
     <meta property="og:image" content="https://www.strangertheme.com/opengraph.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -24,9 +18,6 @@
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@stranger_theme" />
-    <meta name="twitter:url" content="https://www.strangertheme.com/" />
-    <meta name="twitter:title" content="Stranger Theme - Six Dark Themes for Editors and Terminals" />
-    <meta name="twitter:description" content="Turn your coding environment upside down. A dark theme collection inspired by Stranger Things. Available for code editors, IDEs and terminals." />
     <meta name="twitter:image" content="https://www.strangertheme.com/opengraph.jpg" />
     <meta name="twitter:image:alt" content="Stranger Theme: six dark variants for editors and terminals" />
 
@@ -38,6 +29,8 @@
     <!-- Web App Manifest -->
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#0D1117" />
+    <!-- Apply the saved variant before the first paint of the prerendered page -->
+    <script>try{var t=localStorage.getItem("stranger-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Orbitron:wght@600;700;900&display=swap" rel="stylesheet">

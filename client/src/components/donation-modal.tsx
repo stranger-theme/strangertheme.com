@@ -17,12 +17,13 @@ const DONATION_LINKS = {
   ptPix: "https://cobranca.c6pix.com.br/01KE5KW190F4THPMTJH5TS7ZWP",
 }
 
+/** Loaded on the first click of the donate button, so it opens straight away. */
 export default function DonationModal() {
   const { t, language } = useI18n()
   const isPt = language === "pt"
 
   return (
-    <Dialog>
+    <Dialog defaultOpen>
       <DialogTrigger asChild>
         <DonateButton />
       </DialogTrigger>
