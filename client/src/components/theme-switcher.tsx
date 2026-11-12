@@ -17,28 +17,33 @@ import { Link } from "wouter"
 const DonationModal = lazy(() => import("./donation-modal"))
 
 const themeStorageKey = "stranger-theme"
+const defaultTheme = "upside-down"
 
 export function ThemeSwitcher({ onThemeChange }: { onThemeChange?: (id: string) => void } = {}) {
-  const [theme, setTheme] = useState<string>(() => {
-    try {
-      const saved = localStorage.getItem(themeStorageKey)
-      return themes.some(({ id }) => id === saved) ? saved! : "upside-down"
-    } catch {
-      return "upside-down"
-    }
-  })
+  // Prerendered pages show the default variant; the inline script in index.html has already applied the
+  // saved one to <html data-theme>, so the switcher only catches up after hydration.
+  const [theme, setTheme] = useState(defaultTheme)
+  const [donating, setDonating] = useState(false)
   const { language, setLanguage, t } = useI18n()
 
   useEffect(() => {
-    const root = document.documentElement
-    root.setAttribute("data-theme", theme)
+    const applied = document.documentElement.dataset.theme
+    if (themes.some(({ id }) => id === applied)) setTheme(applied!)
+  }, [])
+
+  useEffect(() => {
     onThemeChange?.(theme)
+  }, [theme, onThemeChange])
+
+  const chooseTheme = (id: string) => {
+    setTheme(id)
+    document.documentElement.dataset.theme = id
     try {
-      localStorage.setItem(themeStorageKey, theme)
+      localStorage.setItem(themeStorageKey, id)
     } catch {
       // Keep the in-memory selection when browser storage is unavailable.
     }
-  }, [theme, onThemeChange])
+  }
 
   const languages: { code: Language; label: string }[] = [
     { code: "en", label: "EN" },
@@ -57,7 +62,7 @@ export function ThemeSwitcher({ onThemeChange }: { onThemeChange?: (id: string) 
             .map((option) => (
               <button
                 key={option.id}
-                onClick={() => setTheme(option.id)}
+                onClick={() => chooseTheme(option.id)}
                 aria-label={`${t.selectReality}: ${option.name}`}
                 aria-pressed={theme === option.id}
                 className={cn(
@@ -144,9 +149,13 @@ export function ThemeSwitcher({ onThemeChange }: { onThemeChange?: (id: string) 
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <Suspense fallback={<DonateButton />}>
-          <DonationModal />
-        </Suspense>
+        {donating ? (
+          <Suspense fallback={<DonateButton disabled />}>
+            <DonationModal />
+          </Suspense>
+        ) : (
+          <DonateButton onClick={() => setDonating(true)} />
+        )}
       </div>
     </div>
   )

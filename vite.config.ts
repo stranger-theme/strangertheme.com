@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 
-export default defineConfig({
+export default defineConfig(({ isSsrBuild }) => ({
   plugins: [
     react(),
     tailwindcss(),
@@ -16,11 +16,12 @@ export default defineConfig({
   },
   root: path.resolve(import.meta.dirname, "client"),
   build: {
-    outDir: path.resolve(import.meta.dirname, "dist"),
+    // The SSR bundle only feeds scripts/prerender.mjs, which deletes it afterwards.
+    outDir: path.resolve(import.meta.dirname, isSsrBuild ? "dist-ssr" : "dist"),
     emptyOutDir: true,
   },
   server: {
     host: "0.0.0.0",
     port: 3000,
   },
-});
+}));

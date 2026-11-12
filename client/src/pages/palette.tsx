@@ -1,4 +1,4 @@
-import { RetroGrid } from "@/components/retro-grid"
+import { Background } from "@/components/background"
 import { ThemeSwitcher } from "@/components/theme-switcher"
 import { useI18n } from "@/lib/i18n"
 import { themes, type Slot } from "@/lib/themes"
@@ -29,7 +29,7 @@ export default function Palette() {
 
   return (
     <div className="min-h-screen text-foreground font-sans selection:bg-primary selection:text-primary-foreground overflow-x-clip transition-colors duration-700 relative">
-      <RetroGrid />
+      <Background />
       <ThemeSwitcher />
 
       <main className="container mx-auto px-4 pt-12 pb-12 relative z-10 max-w-5xl">

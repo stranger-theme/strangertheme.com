@@ -1,5 +1,7 @@
 export type Platform = {
   name: string
+  /** URL segment of the platform page, derived from the name. */
+  slug: string
   aliases: string[]
   href: string
   mark: string
@@ -15,7 +17,13 @@ const config = '"${XDG_CONFIG_HOME:-$HOME/.config}"'
 const download = (source: string, destination: string) =>
   `curl -fsSL --create-dirs -o ${destination} ${raw}/${source}`
 
-export const platforms: Platform[] = [
+const slugify = (name: string) =>
+  name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+
+export const platforms: Platform[] = ([
   {
     name: "Visual Studio Code",
     aliases: ["vscode", "vs code"],
@@ -92,7 +100,7 @@ export const platforms: Platform[] = [
     href: `${repository}/terminal#macos-terminal`,
     mark: "MT",
   },
-]
+] satisfies Omit<Platform, "slug">[]).map((platform) => ({ ...platform, slug: slugify(platform.name) }))
 
 export function searchPlatforms(platforms: Platform[], query: string): Platform[] {
   const normalized = query.trim().toLocaleLowerCase()

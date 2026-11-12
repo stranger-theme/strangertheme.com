@@ -1,5 +1,4 @@
-import { motion } from "framer-motion"
-import { RetroGrid } from "@/components/retro-grid"
+import { Background } from "@/components/background"
 import { ThemeSwitcher } from "@/components/theme-switcher"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -14,16 +13,12 @@ export default function About() {
 
   return (
     <div className="min-h-screen text-foreground font-sans selection:bg-primary selection:text-primary-foreground overflow-x-clip transition-colors duration-700 relative">
-      <RetroGrid />
+      <Background />
 
       <ThemeSwitcher />
 
       <main className="container mx-auto px-4 pt-12 pb-12 relative z-10 max-w-4xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
+        <div className="animate-in fade-in slide-in-from-bottom-5 duration-600 fill-mode-both">
           <Link href="/">
             <Button
               variant="ghost"
@@ -34,14 +29,9 @@ export default function About() {
               {t.backHome}
             </Button>
           </Link>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-center mb-12"
-        >
+        <div className="animate-in fade-in zoom-in-95 duration-800 delay-200 fill-mode-both text-center mb-12">
           <div className="inline-flex items-center gap-3 mb-6">
             <Sparkles className="w-8 h-8 text-primary animate-pulse" />
             <h1 className="text-4xl md:text-6xl font-display font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-foreground to-foreground/50 drop-shadow-[0_0_30px_hsl(var(--primary)/0.5)]">
@@ -49,43 +39,33 @@ export default function About() {
             </h1>
             <Sparkles className="w-8 h-8 text-primary animate-pulse" />
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-        >
+        <div className="animate-in fade-in slide-in-from-bottom-8 duration-800 delay-400 fill-mode-both">
           <Card className="bg-card/80 border-border backdrop-blur-sm shadow-[0_0_50px_hsl(var(--primary)/0.1)]">
             <CardContent className="p-8 md:p-12">
               <div className="space-y-6">
                 {paragraphs.map((paragraph, index) => (
-                  <motion.p
+                  <p
                     key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-                    className="text-lg md:text-xl text-foreground/90 font-mono leading-relaxed"
+                    style={{ animationDelay: `${500 + index * 100}ms` }}
+                    className="animate-in fade-in slide-in-from-bottom-5 duration-500 fill-mode-both text-lg md:text-xl text-foreground/90 font-mono leading-relaxed"
                     data-testid={`text-story-paragraph-${index}`}
                   >
                     {paragraph}
-                  </motion.p>
+                  </p>
                 ))}
               </div>
 
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 1 }}
-                className="mt-12 pt-8 border-t border-border/50 text-center"
+              <div className="animate-in fade-in duration-500 delay-1000 fill-mode-both mt-12 pt-8 border-t border-border/50 text-center"
               >
                 <p className="text-muted-foreground font-mono text-sm italic">
                   &quot;Friends don&apos;t lie.&quot;: Eleven
                 </p>
-              </motion.div>
+              </div>
             </CardContent>
           </Card>
-        </motion.div>
+        </div>
       </main>
     </div>
   )
